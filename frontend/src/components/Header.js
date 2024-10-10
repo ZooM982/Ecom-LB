@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { CiLogin } from "react-icons/ci";
 
 const Header = ({ toggleCart }) => {
   return (
@@ -17,6 +18,7 @@ const Header = ({ toggleCart }) => {
           <Link to="/sale" className="mr-4">Sale</Link>
         </div>
         <button onClick={toggleCart} className="bg-blue-500 text-white py-2 px-4 rounded">Cart</button>
+        <Link to="login"><span className='text-[25px] '><CiLogin /></span> </Link>
       </nav>
     </header>
   );

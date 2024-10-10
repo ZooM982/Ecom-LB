@@ -31,14 +31,16 @@ const ProductDetails = () => {
   if (!product) return <div>Produit non trouvé.</div>;
 
   return (
-    <div className="product-details">
-      <h1>{product.name}</h1>
-      <img src={product.image} alt={product.name} />
+    <div className="product-details size-[30%] mx-auto text-center ">
+      <h1 className='font-bold text-[50px] '>{product.name}</h1>
+      <img className='size-[300px] mx-auto ' src={product.image} alt={product.name} />
+      <div className='text-[19px] text-left ms-[10px] '>
       <p>Description: {product.description}</p>
       <p>Prix: {product.price} $</p>
       <p>Taille(s) disponible(s): {product.sizes.join(', ')}</p>
       <p>Couleur(s) disponible(s): {product.colors.join(', ')}</p>
       <h3>Images supplémentaires:</h3>
+      </div>
       <div className="additional-images">
         {product.additionalImages.map((image, index) => (
           <img key={index} src={image} alt={`${product.name} - ${index}`} />

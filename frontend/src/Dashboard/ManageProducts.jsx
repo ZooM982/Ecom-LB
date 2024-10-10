@@ -7,7 +7,11 @@ const ManageProducts = () => {
     category: '',
     description: '',
     price: '',
-    image: ''
+    image: '',
+    additionalImages: [],
+    sizes: [],
+    colors: [],
+    stock: 0
   });
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -30,7 +34,11 @@ const ManageProducts = () => {
 
   // Gestion de l'ajout d'un nouveau produit
   const handleInputChange = (e) => {
-    setNewProduct({ ...newProduct, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setNewProduct((prev) => ({
+      ...prev,
+      [name]: name === 'sizes' || name === 'colors' ? value.split(',').map(item => item.trim()) : value,
+    }));
   };
 
   const handleAddProduct = async (e) => {
@@ -43,7 +51,11 @@ const ManageProducts = () => {
         category: '',
         description: '',
         price: '',
-        image: ''
+        image: '',
+        additionalImages: [],
+        sizes: [],
+        colors: [],
+        stock: 0
       });
     } catch (error) {
       console.error("Erreur lors de l'ajout du produit", error);
@@ -141,6 +153,50 @@ const ManageProducts = () => {
               value={newProduct.image}
               onChange={handleInputChange}
               className="w-full px-3 py-2 border rounded-lg"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700">Images supplémentaires (URLs séparées par des virgules)</label>
+            <input
+              type="text"
+              name="additionalImages"
+              value={newProduct.additionalImages.join(', ')}
+              onChange={handleInputChange}
+              className="w-full px-3 py-2 border rounded-lg"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700">Tailles (séparées par des virgules)</label>
+            <input
+              type="text"
+              name="sizes"
+              value={newProduct.sizes.join(', ')}
+              onChange={handleInputChange}
+              className="w-full px-3 py-2 border rounded-lg"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700">Couleurs (séparées par des virgules)</label>
+            <input
+              type="text"
+              name="colors"
+              value={newProduct.colors.join(', ')}
+              onChange={handleInputChange}
+              className="w-full px-3 py-2 border rounded-lg"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700">Stock</label>
+            <input
+              type="number"
+              name="stock"
+              value={newProduct.stock}
+              onChange={handleInputChange}
+              className="w-full px-3 py-2 border rounded-lg"
+              required
             />
           </div>
           <button
@@ -168,17 +224,18 @@ const ManageProducts = () => {
                       <img src={product.image} alt={product.name} className="w-full h-32 object-cover mb-2 rounded-md" />
                       <h4 className="font-bold">{product.name}</h4>
                       <p>{product.description}</p>
-                      <p className="text-blue-500 font-bold">{product.price} $</p>
-                      <div className="mt-4">
+                      <p className="font-bold">${product.price.toFixed(2)}</p>
+                      <p>Stock: {product.stock}</p>
+                      <div className="mt-2">
                         <button
                           onClick={() => handleEditProduct(product)}
-                          className="bg-yellow-500 text-white py-1 px-2 rounded mr-2"
+                          className="bg-yellow-500 text-white py-1 px-2 rounded hover:bg-yellow-600 mr-2"
                         >
                           Modifier
                         </button>
                         <button
                           onClick={() => handleDeleteProduct(product._id)}
-                          className="bg-red-500 text-white py-1 px-2 rounded"
+                          className="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600"
                         >
                           Supprimer
                         </button>

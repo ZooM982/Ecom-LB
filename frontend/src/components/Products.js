@@ -10,8 +10,7 @@ function Products({ addToCart }) {
     const fetchProducts = async () => {
       try {
         // Si une catégorie est spécifiée, passer cette catégorie dans la requête API
-        const response = await axios.get(`
-                    "hhttps://ecom-9opkk1kf5-roll-haurlys-projects.vercel.app/api/products`, {
+        const response = await axios.get(`http://localhost:5000/api/products`, {
           params: {
             category: category || '' // Envoyer la catégorie dans la requête
           }

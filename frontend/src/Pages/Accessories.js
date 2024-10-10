@@ -11,7 +11,7 @@ const Accessories = () => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(
-          "https://ecom-np486kaq0-roll-haurlys-projects.vercel.app/api/products?category=Accessories"
+          "http://localhost:5000/api/products?category=Accessories"
         );
         setProducts(response.data);
       } catch (error) {

@@ -13,7 +13,7 @@ const ManageUsers = () => {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const response = await axios.get('https://ecom-np486kaq0-roll-haurlys-projects.vercel.app/api/users');
+      const response = await axios.get('http://localhost:5000/api/users');
       setUsers(response.data);
     };
     fetchUsers();
@@ -22,7 +22,7 @@ const ManageUsers = () => {
   const handleAddUser = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('https://ecom-np486kaq0-roll-haurlys-projects.vercel.app/api/users', newUser);
+      await axios.post('http://localhost:5000/api/users', newUser);
       alert('Utilisateur ajouté !');
       setUsers([...users, newUser]);
       setNewUser({ name: '', email: '', password: '', role: 'user' });
@@ -34,7 +34,7 @@ const ManageUsers = () => {
 
   const handleDeleteUser = async (userId) => {
     try {
-      await axios.delete(`https://ecom-np486kaq0-roll-haurlys-projects.vercel.app/api/users/${userId}`);
+      await axios.delete(`http://localhost:5000/api/users/${userId}`);
       setUsers(users.filter(user => user._id !== userId));
       alert('Utilisateur supprimé !');
     } catch (error) {

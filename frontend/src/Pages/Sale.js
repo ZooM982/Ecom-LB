@@ -11,7 +11,7 @@ const Sale = () => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/products?category=Sale"
+          "https://ecom-lb.onrender.com/api/products?category=Sale"
         );
         setProducts(response.data);
       } catch (error) {

@@ -11,7 +11,7 @@ const Accessories = () => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/products?category=Accessories"
+          "hhttps://ecom-lb.onrender.com/api/products?category=Accessories"
         );
         setProducts(response.data);
       } catch (error) {

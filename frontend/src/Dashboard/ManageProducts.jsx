@@ -16,7 +16,7 @@ const ManageProducts = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/products');
+        const response = await axios.get('https://ecom-np486kaq0-roll-haurlys-projects.vercel.app/api/products');
         setProducts(response.data);
       } catch (error) {
         console.error("Erreur lors de la récupération des produits", error);
@@ -36,7 +36,7 @@ const ManageProducts = () => {
   const handleAddProduct = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/products', newProduct);
+      const response = await axios.post('https://ecom-np486kaq0-roll-haurlys-projects.vercel.app/api/products', newProduct);
       setProducts([...products, response.data]);
       setNewProduct({
         name: '',
@@ -53,7 +53,7 @@ const ManageProducts = () => {
   // Suppression d'un produit avec gestion d'erreur
   const handleDeleteProduct = async (productId) => {
     try {
-      const response = await axios.delete(`http://localhost:5000/api/products/${productId}`);
+      const response = await axios.delete(`https://ecom-np486kaq0-roll-haurlys-projects.vercel.app/api/products/${productId}`);
       if (response.status === 200) {
         setProducts(products.filter(product => product._id !== productId));
         console.log('Produit supprimé avec succès');

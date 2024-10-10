@@ -15,7 +15,7 @@ const ProductDetails = () => {
         return; // Arrêter si l'ID est undefined
       }
       try {
-        const response = await axios.get(`http://localhost:5000/api/products/${id}`);
+        const response = await axios.get(`https://ecom-np486kaq0-roll-haurlys-projects.vercel.app/api/products/${id}`);
         setProduct(response.data);
         setLoading(false);
       } catch (error) {

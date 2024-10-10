@@ -11,7 +11,7 @@ const Kids = () => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(
-          "https://ecom-np486kaq0-roll-haurlys-projects.vercel.app/api/products?category=Kids"
+          "https://https://ecom-9opkk1kf5-roll-haurlys-projects.vercel.app/api/products?category=Kids"
         );
         setProducts(response.data);
       } catch (error) {

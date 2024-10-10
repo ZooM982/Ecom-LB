@@ -1,0 +1,115 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "E-commerce API",
+      "description": "API for managing products and users in an e-commerce application"
+    },
+    "host": "localhost:5000",
+    "basePath": "/api",
+    "schemes": ["http"],
+    "paths": {
+      "/products": {
+        "get": {
+          "summary": "Get all products",
+          "responses": {
+            "200": {
+              "description": "Successful response"
+            }
+          }
+        },
+        "post": {
+          "summary": "Add a new product",
+          "parameters": [
+            {
+              "name": "product",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "price": {
+                    "type": "number"
+                  },
+                  "image": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Product created"
+            }
+          }
+        }
+      },
+      "/users/register": {
+        "post": {
+          "summary": "Register a new user",
+          "parameters": [
+            {
+              "name": "user",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "User registered"
+            }
+          }
+        }
+      },
+      "/users/login": {
+        "post": {
+          "summary": "Log in a user",
+          "parameters": [
+            {
+              "name": "user",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful login"
+            },
+            "401": {
+              "description": "Invalid credentials"
+            }
+          }
+        }
+      }
+    }
+  }
+  

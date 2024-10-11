@@ -8,15 +8,17 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('Données à envoyer:', { username, email, password }); // Ajoute cette ligne
     try {
-      // Ajoutez 'user' comme rôle par défaut
-      await registerUser(username, email, password, 'user');
+      await registerUser(username, email, password);
       alert('Inscription réussie !');
     } catch (error) {
       console.error(error);
       alert('Erreur lors de l\'inscription.');
     }
   };
+  
+  
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
@@ -37,7 +39,7 @@ const Register = () => {
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">Votre email</label>
             <input 
-              type="text" 
+              type="email" 
               placeholder="Email" 
               value={email} 
               onChange={(e) => setEmail(e.target.value)} 

@@ -15,19 +15,20 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Route pour ajouter un nouvel utilisateur (utilisateurs classiques)
+//Route pour creer un utilisqteur comme user par default 
 router.post('/register', async (req, res) => {
   const { username, email, password } = req.body;
 
   try {
-    // Créer un nouvel utilisateur avec le rôle par défaut 'user'
-    const newUser = new User({ name: username, email, password, role: 'user' });
+    const newUser = new User({ username, email, password, role: 'user' });
     await newUser.save();
     res.status(201).json({ message: 'Utilisateur créé avec succès', user: newUser });
   } catch (error) {
+    console.error('Erreur lors de la création de l\'utilisateur:', error); // Ajoute cette ligne
     res.status(400).json({ message: error.message });
   }
 });
+
 
 
 //Route pour creer un admin

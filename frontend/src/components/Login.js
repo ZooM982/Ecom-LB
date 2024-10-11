@@ -1,7 +1,8 @@
 // src/components/Login.js
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../services/auth";
+
 
 const Login = () => {
   const [username, setUsername] = useState(""); // Change 'username' en 'email'
@@ -70,9 +71,9 @@ const Login = () => {
         </form>
         <p className="mt-4 text-sm text-center">
           Pas de compte ?{" "}
-          <a href="/register" className="text-blue-600 hover:underline">
+          <Link to="/register" className="text-blue-600 hover:underline">
             Inscrivez-vous
-          </a>
+          </Link>
         </p>
       </div>
     </div>

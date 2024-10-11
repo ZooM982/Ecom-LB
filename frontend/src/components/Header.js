@@ -20,7 +20,7 @@ const Header = ({ toggleCart }) => {
         </div>
         <div className='flex justify-between md:w-[80px] text-[25px] text-white me-[10px]'>
         <button onClick={toggleCart} className=""><span><MdShoppingCart/></span></button>
-        <Link to="login"><span className=''><CiLogin /></span> </Link>
+        <Link to="/login"><span className=''><CiLogin /></span> </Link>
         </div>
       </nav>
     </header>

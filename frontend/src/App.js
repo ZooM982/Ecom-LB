@@ -47,14 +47,16 @@ function App() {
   };
 
   return (
-    <Router>
-      <AppContent
-        addToCart={addToCart}
-        toggleCart={toggleCart}
-        isCartOpen={isCartOpen}
-        cartItems={cartItems}
-      />
-    </Router>
+    <div className=''>
+      <Router>
+        <AppContent
+          addToCart={addToCart}
+          toggleCart={toggleCart}
+          isCartOpen={isCartOpen}
+          cartItems={cartItems}
+        />
+      </Router>
+    </div>
   );
 }
 

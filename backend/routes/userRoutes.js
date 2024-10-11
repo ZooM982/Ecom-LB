@@ -17,17 +17,18 @@ router.get('/', async (req, res) => {
 
 // Route pour ajouter un nouvel utilisateur (utilisateurs classiques)
 router.post('/register', async (req, res) => {
-  const { name, email, password } = req.body;
+  const { username, email, password } = req.body;
 
   try {
     // Créer un nouvel utilisateur avec le rôle par défaut 'user'
-    const newUser = new User({ name, email, password, role: 'user' });
+    const newUser = new User({ name: username, email, password, role: 'user' });
     await newUser.save();
     res.status(201).json({ message: 'Utilisateur créé avec succès', user: newUser });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 });
+
 
 //Route pour creer un admin
 router.post('/create-admin-temp', async (req, res) => {

@@ -17,7 +17,7 @@ const CartModal = ({ isOpen, onRequestClose, cartItems }) => {
 
   const handleWhatsApp = () => {
     // Formater le contenu du panier
-    const message = cartItems.map(item => `${item.name}: ${item.price} €`).join('\n');
+    const message = cartItems.map(item => `${item.name}: ${item.price} FCFA`).join('\n');
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
     
     // Ouvrir WhatsApp

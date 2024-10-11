@@ -3,13 +3,14 @@ import { registerUser } from '../services/auth';
 
 const Register = () => {
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       // Ajoutez 'user' comme rôle par défaut
-      await registerUser(username, password, 'user');
+      await registerUser(username, email, password, 'user');
       alert('Inscription réussie !');
     } catch (error) {
       console.error(error);
@@ -29,6 +30,17 @@ const Register = () => {
               placeholder="Nom d'utilisateur" 
               value={username} 
               onChange={(e) => setUsername(e.target.value)} 
+              required 
+              className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">Votre email</label>
+            <input 
+              type="text" 
+              placeholder="Email" 
+              value={email} 
+              onChange={(e) => setEmail(e.target.value)} 
               required 
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
             />

@@ -85,7 +85,7 @@ const AppContent = ({ addToCart, toggleCart, isCartOpen, cartItems }) => {
         } />
          <Route path="/products/:id" element={<ProductDetails />} /> 
       </Routes>
-      {!isAuthPage && <Footer />}
+      <Footer />
       <CartModal isOpen={isCartOpen} onRequestClose={toggleCart} cartItems={cartItems} />
     </div>
   );

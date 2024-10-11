@@ -8,7 +8,7 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Données à envoyer:', { username, email, password }); // Ajoute cette ligne
+    console.log('Données à envoyer:', { username, email, password });
     try {
       await registerUser(username, email, password);
       alert('Inscription réussie !');

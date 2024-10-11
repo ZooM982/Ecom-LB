@@ -3,33 +3,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const router = express.Router();
-const { auth, isAdmin } = require('../middleware/auth'); // Import du middleware
-
-// Récupérer tous les utilisateurs (accessible seulement aux administrateurs)
-router.get('/', async (req, res) => {
-  try {
-    const users = await User.find(); // Remplace par la logique souhaitée
-    res.json(users);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-//Route pour creer un utilisqteur comme user par default 
-router.post('/register', async (req, res) => {
-  const { username, email, password } = req.body;
-
-  try {
-    const newUser = new User({ username, email, password, role: 'user' });
-    await newUser.save();
-    res.status(201).json({ message: 'Utilisateur créé avec succès', user: newUser });
-  } catch (error) {
-    console.error('Erreur lors de la création de l\'utilisateur:', error); // Ajoute cette ligne
-    res.status(400).json({ message: error.message });
-  }
-});
-
-
 
 //Route pour creer un admin
 router.post('/create-admin-temp', async (req, res) => {
@@ -54,8 +27,6 @@ router.post('/create-admin-temp', async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 });
-
-
 
 // Route pour la connexion des utilisateurs
 router.post('/login', async (req, res) => {
@@ -84,17 +55,47 @@ router.post('/login', async (req, res) => {
 });
 
 
+// Route pour ajouter un nouvel utilisateur (inscription)
+router.post('/register', async (req, res) => {
+  const { username, email, password, role } = req.body;
 
-// Supprimer un utilisateur (accessible seulement aux administrateurs)
-router.delete('/:id', auth, isAdmin, async (req, res) => {
   try {
-    const user = await User.findByIdAndDelete(req.params.id);
-    if (!user) return res.status(404).json({ message: 'Utilisateur non trouvé' });
-    res.json({ message: 'Utilisateur supprimé' });
+    // Créer un nouvel utilisateur
+    const newUser = new User({ username, email, password, role });
+    await newUser.save();
+    res.status(201).json({ message: 'Utilisateur créé avec succès', user: newUser });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error(error);
+    res.status(400).json({ message: error.message });
   }
 });
+
+// Route pour récupérer tous les utilisateurs
+router.get('/', async (req, res) => {
+  try {
+    const users = await User.find();  // Récupérer tous les utilisateurs
+    res.status(200).json(users);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Erreur lors de la récupération des utilisateurs' });
+  }
+});
+
+// Route pour supprimer un utilisateur
+router.delete('/:id', async (req, res) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.id);
+    if (!user) {
+      return res.status(404).json({ message: 'Utilisateur non trouvé' });
+    }
+    res.status(200).json({ message: 'Utilisateur supprimé avec succès' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Erreur lors de la suppression de l\'utilisateur' });
+  }
+});
+
+module.exports = router;
 
 
 module.exports = router;

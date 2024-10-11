@@ -5,7 +5,7 @@ import './ManageUsers.css'; // Import des styles
 const ManageUsers = () => {
   const [users, setUsers] = useState([]);
   const [newUser, setNewUser] = useState({
-    name: '',
+    username: '',  // Remplacement de 'name' par 'username'
     email: '',
     password: '',
     role: 'user',
@@ -13,8 +13,13 @@ const ManageUsers = () => {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const response = await axios.get('https://ecom-lb.onrender.com/api/users');
-      setUsers(response.data);
+      try {
+        const response = await axios.get('https://ecom-lb.onrender.com/api/users');
+        console.log('Utilisateurs récupérés :', response.data);  // Vérification de la réponse
+        setUsers(response.data);
+      } catch (error) {
+        console.error('Erreur lors de la récupération des utilisateurs :', error);
+      }
     };
     fetchUsers();
   }, []);
@@ -22,17 +27,18 @@ const ManageUsers = () => {
   const handleAddUser = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('https://ecom-lb.onrender.com/api/users', newUser);
+      const response = await axios.post('https://ecom-lb.onrender.com/api/users/register', newUser);
       alert('Utilisateur ajouté !');
-      setUsers([...users, newUser]);
-      setNewUser({ name: '', email: '', password: '', role: 'user' });
+      setUsers([...users, response.data.user]);  // Ajout de la réponse au tableau d'utilisateurs
+      setNewUser({ username: '', email: '', password: '', role: 'user' });
     } catch (error) {
       console.error(error);
-      alert('Erreur lors de l\'ajout de l\'utilisateur.');
+      alert(`Erreur lors de l'ajout de l'utilisateur : ${error.response?.data?.message || 'Erreur inconnue'}`);
     }
   };
 
   const handleDeleteUser = async (userId) => {
+    console.log('ID utilisateur à supprimer :', userId);  // Vérification de l'ID
     try {
       await axios.delete(`https://ecom-lb.onrender.com/api/users/${userId}`);
       setUsers(users.filter(user => user._id !== userId));
@@ -50,8 +56,8 @@ const ManageUsers = () => {
         <input
           type="text"
           placeholder="Nom de l'utilisateur"
-          value={newUser.name}
-          onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
+          value={newUser.username}  // Utilisation de 'username'
+          onChange={(e) => setNewUser({ ...newUser, username: e.target.value })}
           required
           className="input-field"
         />
@@ -87,7 +93,7 @@ const ManageUsers = () => {
         {users.map(user => (
           <li key={user._id} className="user-item">
             <div>
-              <strong>{user.name}</strong> <br />
+              <strong>{user.username}</strong> <br />
               {user.email} - <span className="role-label">{user.role}</span>
             </div>
             <button

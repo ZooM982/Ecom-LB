@@ -1,22 +1,28 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
-// Schéma utilisateur
+// Schéma utilisateur 
 const userSchema = new mongoose.Schema({
-  name: { type: String, required: true },
+  username: { 
+    type: String, 
+    required: true, 
+    unique: true // Assurez-vous que le username est unique
+  },
   email: { 
     type: String, 
     required: true, 
     unique: true, 
     match: [/.+@.+\..+/, 'Veuillez entrer un email valide.'] // Validation de l'email
   },
-  username: { // Ajout du champ username
+  password: { 
     type: String, 
-    required: true, 
-    unique: true // Assurez-vous que le username est unique
+    required: true 
   },
-  password: { type: String, required: true },
-  role: { type: String, enum: ['admin', 'user'], default: 'user' }
+  role: { 
+    type: String, 
+    enum: ['admin', 'user'], 
+    default: 'user' 
+  }
 });
 
 // Hachage du mot de passe avant sauvegarde

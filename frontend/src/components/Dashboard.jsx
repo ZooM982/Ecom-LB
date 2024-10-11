@@ -7,9 +7,9 @@ const Dashboard = () => {
   return (
     <div className="dashboard-container">
       <aside className="dashboard-sidebar">
-        <ul>
-          <li><Link to="/dashboard/products">Gérer les produits</Link></li>
-          <li><Link to="/dashboard/users">Gérer les utilisateurs</Link></li>
+        <ul className='flex justify-between w-[50%] mx-auto'>
+          <li className='h-[50px] w-[40%] py-2 text-center'><Link to="/dashboard/products">Gérer les produits</Link></li>
+          <li className='h-[50px] w-[40%] py-2 text-center'><Link to="/dashboard/users">Gérer les utilisateurs</Link></li>
         </ul>
       </aside>
       <main className="dashboard-content">

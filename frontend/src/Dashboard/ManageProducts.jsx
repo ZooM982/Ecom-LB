@@ -212,7 +212,12 @@ const ManageProducts = () => {
                 <ul className="list-disc pl-5 mb-4">
                   {products.map(product => (
                     <li key={product._id} className="flex justify-between items-center">
+                      <img className='w-[45px] h-[45px]' src={product.image} alt={product.name}/>
                       <span>{product.name}</span>
+                      <span>{product.price} FCFA</span>
+                      <span>{product.stock}</span>
+                      <span>{product.sizes}</span>
+                      <span>{product.colors}</span>
                       <button 
                         onClick={() => handleDeleteProduct(product._id)} 
                         className="bg-red-500 text-white px-3 py-1 rounded-lg">

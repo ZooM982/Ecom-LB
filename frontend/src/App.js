@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
-import './App.css'
+import './App.css';
 import { BrowserRouter as Router, Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -17,59 +17,105 @@ import Kids from './Pages/Kids';
 import Dashboard from './components/Dashboard';
 import ProductDetails from './Pages/ProductDetails';
 import Butterflies from './components/butterflies/Butterflies';
+import { AuthProvider, useAuth } from './context/AuthContext'
 
 // Fonction pour récupérer le token du localStorage
 const getToken = () => {
   const token = localStorage.getItem('token');
-  return token ? JSON.parse(token) : null; // Renvoie null si le token est undefined
+  if (!token || token === 'undefined') {
+    return null;
+  }
+  try {
+    return JSON.parse(token);
+  } catch (error) {
+    console.error('Erreur de parsing du token:', error);
+    return null;
+  }
 };
 
 const RequireAdminAuth = ({ children }) => {
-  // Récupère les informations de l'utilisateur depuis localStorage
-  const user = JSON.parse(localStorage.getItem('user')); // Supposons que le rôle de l'utilisateur est stocké dans localStorage après la connexion
+  const user = JSON.parse(localStorage.getItem('user'));
 
-  // Vérifie si l'utilisateur existe et a le rôle admin
   if (!user || !user.role || user.role !== 'admin') {
-    return <Navigate to="/login" />; // Redirection vers la page de connexion si l'utilisateur n'est pas admin ou non connecté
+    return <Navigate to="/login" />;
   }
 
-  return children; // Rendre les enfants si l'utilisateur est admin
+  return children;
 };
 
 function App() {
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState(() => {
+    const savedItems = localStorage.getItem('cartItems');
+    return savedItems ? JSON.parse(savedItems) : [];
+  });
   const [isCartOpen, setCartOpen] = useState(false);
-
+  
   const addToCart = (item) => {
-    setCartItems((prevItems) => [...prevItems, item]);
+    setCartItems((prevItems) => {
+      const existingItem = prevItems.find(cartItem => cartItem.id === item.id);
+
+      if (existingItem) {
+        return prevItems.map(cartItem =>
+          cartItem.id === item.id
+            ? { ...cartItem, quantity: cartItem.quantity + item.quantity }
+            : cartItem
+        );
+      }
+
+      return [...prevItems, item];
+    });
+    
+    // Sauvegarder les articles dans le localStorage
+    localStorage.setItem('cartItems', JSON.stringify([...cartItems, item]));
   };
 
   const toggleCart = () => {
     setCartOpen(!isCartOpen);
   };
 
+  const clearCart = () => {
+    setCartItems([]); // Réinitialise le panier
+    localStorage.removeItem('cartItems'); // Efface le localStorage
+  };
+
   return (
-    <div className=''>
-      <Router>
-        <AppContent
-          addToCart={addToCart}
-          toggleCart={toggleCart}
-          isCartOpen={isCartOpen}
-          cartItems={cartItems}
-        />
-      </Router>
-    </div>
+    <AuthProvider>
+      <div className=''>
+        <Router>
+          <AppContent
+            addToCart={addToCart}
+            toggleCart={toggleCart}
+            isCartOpen={isCartOpen}
+            cartItems={cartItems}
+            clearCart={clearCart} // Passer la fonction clearCart
+          />
+        </Router>
+      </div>
+    </AuthProvider>
   );
 }
 
-const AppContent = ({ addToCart, toggleCart, isCartOpen, cartItems }) => {
+const AppContent = ({ addToCart, toggleCart, isCartOpen, cartItems, clearCart }) => {
   const location = useLocation();
   const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
+  const { setAuth } = useAuth();
+
+  const handleLogin = (token, user) => {
+    localStorage.setItem('token', JSON.stringify(token));
+    localStorage.setItem('user', JSON.stringify(user));
+    setAuth({ token, user });
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    setAuth({ token: null, user: null });
+  };
 
   return (
     <div className="App">
       <Butterflies />
-      {!isAuthPage && <Header toggleCart={toggleCart} />}
+      {!isAuthPage && <Header toggleCart={toggleCart} cartItems={cartItems} onLogout={handleLogout} />}
       {location.pathname === '/' && <Hero />}
       <Routes>
         <Route path="/" element={<Products addToCart={addToCart} />} />
@@ -78,20 +124,19 @@ const AppContent = ({ addToCart, toggleCart, isCartOpen, cartItems }) => {
         <Route path="/kids" element={<Kids />} />
         <Route path="/accessories" element={<Accessories />} />
         <Route path="/sale" element={<Sale />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        {/* Route privée pour le dashboard admin */}
+        <Route path="/login" element={<Login onLogin={handleLogin} />} />
+        <Route path="/register" element={<Register onLogin={handleLogin} />} />
         <Route path="/dashboard/*" element={
           <RequireAdminAuth>
             <Dashboard />
           </RequireAdminAuth>
         } />
-         <Route path="/products/:id" element={<ProductDetails />} /> 
+        <Route path="/products/:id" element={<ProductDetails />} />
       </Routes>
       <Footer />
-      <CartModal isOpen={isCartOpen} onRequestClose={toggleCart} cartItems={cartItems} />
+      <CartModal isOpen={isCartOpen} onRequestClose={toggleCart} cartItems={cartItems} clearCart={clearCart} /> {/* Passer clearCart ici */}
     </div>
   );
-}
+};
 
 export default App;

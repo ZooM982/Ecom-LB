@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
+import AddToCartButton from '../buttons/AddToCartButton';
 
 function Products({ addToCart }) {
   const [products, setProducts] = useState([]);
@@ -38,12 +39,7 @@ function Products({ addToCart }) {
             <h3 className="text-lg font-semibold">{product.name}</h3>
             </Link>
             <p className="text-gray-600 mb-2">${product.price}</p>
-            <button 
-              onClick={() => addToCart(product)} 
-              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-            >
-              Add to Cart
-            </button>
+            <AddToCartButton product={product} addToCart={addToCart} />
           </div>
         ))}
       </div>

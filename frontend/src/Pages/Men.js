@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import BackButton from "../buttons/backbutton";
 
 const Men = () => {
   const [products, setProducts] = useState([]);
@@ -30,6 +31,7 @@ const Men = () => {
 
   return (
     <div className="container mx-auto py-8">
+      <BackButton />
       <h1 className="text-3xl font-bold mb-6">Men's Products</h1>
       {products.length === 0 ? (
         <p className="text-red-500">No products available in this category.</p>

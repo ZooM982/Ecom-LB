@@ -1,32 +1,33 @@
-// src/components/Login.js
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../services/auth";
-
+import { useAuth } from '../context/AuthContext'; 
 
 const Login = () => {
-  const [username, setUsername] = useState(""); // Change 'username' en 'email'
+  const { onLogin } = useAuth();
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { token, user } = await loginUser(username, password); // Reçois le user en plus du token
-      
-      // Stockez le token et l'utilisateur dans le localStorage
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(user));
-      
-      // Vérifie le rôle de l'utilisateur
+      const { token, user } = await loginUser(username, password);
+      onLogin(token, user);
+
       if (user.role === "admin") {
-        navigate("/dashboard"); // Rediriger vers le tableau de bord admin
+        navigate("/dashboard");
       } else {
-        navigate("/"); // Rediriger vers le tableau de bord utilisateur
+        navigate("/");
       }
+
+      setUsername("");
+      setPassword("");
+      setError("");
     } catch (error) {
       console.error(error);
-      alert("Erreur lors de la connexion.");
+      setError("Erreur lors de la connexion. Veuillez vérifier vos identifiants.");
     }
   };
 
@@ -34,12 +35,10 @@ const Login = () => {
     <div className="flex items-center justify-center h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold text-center mb-6">Se connecter</h2>
+        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">
-              Email
-            </label>{" "}
-            {/* Change 'Nom d'utilisateur' en 'Email' */}
+            <label className="block text-sm font-medium text-gray-700">Email</label>
             <input
               type="email"
               placeholder="Email"
@@ -50,9 +49,7 @@ const Login = () => {
             />
           </div>
           <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700">
-              Mot de passe
-            </label>
+            <label className="block text-sm font-medium text-gray-700">Mot de passe</label>
             <input
               type="password"
               placeholder="Mot de passe"

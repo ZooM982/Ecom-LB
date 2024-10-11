@@ -1,7 +1,5 @@
 const express = require("express");
 const Product = require("../models/Product");
-const auth = require("../middleware/auth");
-
 const router = express.Router();
 
 // Récupérer tous les produits ou par catégorie
@@ -40,7 +38,7 @@ router.get("/:id", async (req, res) => {
 
 // Ajouter un nouveau produit
 router.post("/", async (req, res) => {
-  const { name, price, description, image, category } = req.body;
+  const { name, price, description, image, category, additionalImages, sizes, colors, stock } = req.body;
 
   // Validation basique
   if (!name || !price || !description || !image || !category) {
@@ -54,6 +52,10 @@ router.post("/", async (req, res) => {
       description,
       image,
       category,
+      additionalImages,
+      sizes,
+      colors,
+      stock
     });
     await newProduct.save();
     res.status(201).json(newProduct);
@@ -62,17 +64,15 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.delete("/users/:id", async (req, res) => {
-  console.log("ID reçu pour suppression:", req.params.id); // Ajout d'un log pour voir l'ID reçu
+// Supprimer un produit par ID
+router.delete("/:id", async (req, res) => {
   try {
     const product = await Product.findByIdAndDelete(req.params.id);
     if (!product) {
-      console.log("Produit non trouvé"); // Ajout d'un log si le produit n'est pas trouvé
       return res.status(404).json({ message: "Produit non trouvé" });
     }
     res.status(200).json({ message: "Produit supprimé avec succès" });
   } catch (error) {
-    console.log("Erreur lors de la suppression:", error); // Log en cas d'erreur serveur
     res.status(500).json({ message: "Erreur serveur", error });
   }
 });

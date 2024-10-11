@@ -1,3 +1,4 @@
+// src/components/ManageProducts.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -62,7 +63,7 @@ const ManageProducts = () => {
     }
   };
 
-  // Suppression d'un produit avec gestion d'erreur
+  // Suppression d'un produit
   const handleDeleteProduct = async (productId) => {
     try {
       const response = await axios.delete(`https://ecom-lb.onrender.com/api/products/${productId}`);
@@ -75,11 +76,6 @@ const ManageProducts = () => {
     } catch (error) {
       console.error('Erreur lors de la suppression du produit :', error.response ? error.response.data : error.message);
     }
-  };
-
-  // Modification d'un produit
-  const handleEditProduct = async (product) => {
-    console.log("Modifier le produit:", product);
   };
 
   // Regrouper les produits par catégorie
@@ -146,7 +142,7 @@ const ManageProducts = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700">Image (URL)</label>
+            <label className="block text-gray-700">Image principale</label>
             <input
               type="text"
               name="image"
@@ -157,11 +153,11 @@ const ManageProducts = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700">Images supplémentaires (URLs séparées par des virgules)</label>
+            <label className="block text-gray-700">Images supplémentaires (séparées par des virgules)</label>
             <input
               type="text"
               name="additionalImages"
-              value={newProduct.additionalImages.join(', ')}
+              value={newProduct.additionalImages.join(',')}
               onChange={handleInputChange}
               className="w-full px-3 py-2 border rounded-lg"
             />
@@ -171,7 +167,7 @@ const ManageProducts = () => {
             <input
               type="text"
               name="sizes"
-              value={newProduct.sizes.join(', ')}
+              value={newProduct.sizes.join(',')}
               onChange={handleInputChange}
               className="w-full px-3 py-2 border rounded-lg"
               required
@@ -182,7 +178,7 @@ const ManageProducts = () => {
             <input
               type="text"
               name="colors"
-              value={newProduct.colors.join(', ')}
+              value={newProduct.colors.join(',')}
               onChange={handleInputChange}
               className="w-full px-3 py-2 border rounded-lg"
               required
@@ -199,50 +195,32 @@ const ManageProducts = () => {
               required
             />
           </div>
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-          >
-            Ajouter le produit
-          </button>
+          <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded-lg">Ajouter Produit</button>
         </form>
       </div>
 
       {/* Colonne de droite - Liste des produits */}
-      <div className="w-2/3">
-        <h2 className="text-2xl font-bold mb-4">Liste des produits</h2>
+      <div className="md:w-2/3">
         {loading ? (
           <p>Chargement des produits...</p>
         ) : (
           <div>
-            {Object.keys(groupedProducts).map((category) => (
-              <div key={category} className="mb-6">
-                <h3 className="text-xl font-semibold mb-2">{category}</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                  {groupedProducts[category].map((product) => (
-                    <div key={product._id} className="bg-white p-4 rounded-lg shadow-md">
-                      <img src={product.image} alt={product.name} className="w-full h-32 object-cover mb-2 rounded-md" />
-                      <h4 className="font-bold">{product.name}</h4>
-                      <p>{product.description}</p>
-                      <p className="font-bold">${product.price.toFixed(2)}</p>
-                      <p>Stock: {product.stock}</p>
-                      <div className="mt-2">
-                        <button
-                          onClick={() => handleEditProduct(product)}
-                          className="bg-yellow-500 text-white py-1 px-2 rounded hover:bg-yellow-600 mr-2"
-                        >
-                          Modifier
-                        </button>
-                        <button
-                          onClick={() => handleDeleteProduct(product._id)}
-                          className="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600"
-                        >
-                          Supprimer
-                        </button>
-                      </div>
-                    </div>
+            <h2 className="text-2xl font-bold mb-4">Liste des produits</h2>
+            {Object.entries(groupedProducts).map(([category, products]) => (
+              <div key={category}>
+                <h3 className="text-xl font-semibold">{category}</h3>
+                <ul className="list-disc pl-5 mb-4">
+                  {products.map(product => (
+                    <li key={product._id} className="flex justify-between items-center">
+                      <span>{product.name}</span>
+                      <button 
+                        onClick={() => handleDeleteProduct(product._id)} 
+                        className="bg-red-500 text-white px-3 py-1 rounded-lg">
+                        Supprimer
+                      </button>
+                    </li>
                   ))}
-                </div>
+                </ul>
               </div>
             ))}
           </div>

@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
+import './App.css'
 import { BrowserRouter as Router, Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -15,6 +16,7 @@ import Sale from './Pages/Sale';
 import Kids from './Pages/Kids';
 import Dashboard from './components/Dashboard';
 import ProductDetails from './Pages/ProductDetails';
+import Butterflies from './components/butterflies/Butterflies';
 
 // Fonction pour récupérer le token du localStorage
 const getToken = () => {
@@ -66,6 +68,7 @@ const AppContent = ({ addToCart, toggleCart, isCartOpen, cartItems }) => {
 
   return (
     <div className="App">
+      <Butterflies />
       {!isAuthPage && <Header toggleCart={toggleCart} />}
       {location.pathname === '/' && <Hero />}
       <Routes>

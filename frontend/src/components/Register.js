@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { registerUser } from '../services/auth';
 import { Link } from 'react-router-dom';
 
-
 const Register = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -12,15 +11,13 @@ const Register = () => {
     e.preventDefault();
     console.log('Données à envoyer:', { username, email, password });
     try {
-      await registerUser(username, email, password);
+      await registerUser( username, email, password ); // Envoie des données supplémentaires
       alert('Inscription réussie !');
     } catch (error) {
       console.error(error);
       alert('Erreur lors de l\'inscription.');
     }
   };
-  
-  
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
@@ -29,39 +26,39 @@ const Register = () => {
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">Nom d'utilisateur</label>
-            <input 
-              type="text" 
-              placeholder="Nom d'utilisateur" 
-              value={username} 
-              onChange={(e) => setUsername(e.target.value)} 
-              required 
+            <input
+              type="text"
+              placeholder="Nom d'utilisateur"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
             />
           </div>
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">Votre email</label>
-            <input 
-              type="email" 
-              placeholder="Email" 
-              value={email} 
-              onChange={(e) => setEmail(e.target.value)} 
-              required 
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
             />
           </div>
           <div className="mb-6">
             <label className="block text-sm font-medium text-gray-700">Mot de passe</label>
-            <input 
-              type="password" 
-              placeholder="Mot de passe" 
-              value={password} 
-              onChange={(e) => setPassword(e.target.value)} 
-              required 
+            <input
+              type="password"
+              placeholder="Mot de passe"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
             />
           </div>
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             className="w-full bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700 transition duration-200"
           >
             S'inscrire

@@ -4,17 +4,40 @@ const path = require("path");
 const Product = require("../models/Product");
 const router = express.Router();
 
-// Configuration de multer pour l'upload des fichiers
+// Multer configuration
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
-		cb(null, "uploads/"); // Dossier où les fichiers seront enregistrés
+		cb(null, "uploads/");
 	},
 	filename: (req, file, cb) => {
-		cb(null, Date.now() + path.extname(file.originalname)); // Renommer le fichier pour éviter les collisions
+		cb(null, Date.now() + path.extname(file.originalname));
 	},
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage });
+
+// Add a new product
+router.post("/", upload.single("image"), async (req, res) => {
+	const { name, price, description, category, sizes, colors, stock } = req.body;
+	const image = req.file ? req.file.filename : null;
+
+	try {
+		const newProduct = new Product({
+			name,
+			price,
+			description,
+			image,
+			category,
+			sizes: sizes.split(","),
+			colors: colors.split(","),
+			stock,
+		});
+		await newProduct.save();
+		res.status(201).json(newProduct);
+	} catch (error) {
+		res.status(400).json({ message: error.message });
+	}
+});
 
 // Route pour récupérer tous les produits ou par catégorie
 router.get("/", async (req, res) => {
@@ -49,50 +72,6 @@ router.get("/:id", async (req, res) => {
 		res.status(500).json({ message: "Erreur serveur" });
 	}
 });
-
-// Route pour ajouter un nouveau produit
-router.post(
-	"/",
-	upload.single("image"),
-	upload.array("additionalImages"),
-	async (req, res) => {
-		const { name, price, description, category, sizes, colors, stock } =
-			req.body;
-
-		// Validation des champs
-		if (!name || !price || !description || !category) {
-			return res.status(400).json({ message: "Tous les champs sont requis." });
-		}
-
-		try {
-			// Sauvegarder l'image principale
-			const image = req.file ? req.file.filename : null;
-
-			// Sauvegarder les fichiers supplémentaires
-			const additionalImages = req.files.map((file) => file.filename);
-
-			// Créer un nouveau produit
-			const newProduct = new Product({
-				name,
-				price,
-				description,
-				image, // L'image principale enregistrée avec Multer
-				category,
-				additionalImages, // Les fichiers supplémentaires
-				sizes,
-				colors,
-				stock,
-			});
-
-			// Sauvegarder le produit dans la base de données
-			await newProduct.save();
-
-			res.status(201).json(newProduct);
-		} catch (error) {
-			res.status(400).json({ message: error.message });
-		}
-	}
-);
 
 // Route pour supprimer un produit par ID
 router.delete("/:id", async (req, res) => {

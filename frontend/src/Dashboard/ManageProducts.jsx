@@ -75,7 +75,7 @@ const ManageProducts = () => {
 		formData.append("price", newProduct.price);
 		formData.append("stock", newProduct.stock);
 
-		// Ajouter l'image principale
+		// Ajouter l'image principale (fichier unique)
 		if (newProduct.image && newProduct.image[0]) {
 			formData.append("image", newProduct.image[0]);
 		}
@@ -123,6 +123,7 @@ const ManageProducts = () => {
 			console.error("Erreur lors de l'ajout du produit", error);
 		}
 	};
+
 
 
 

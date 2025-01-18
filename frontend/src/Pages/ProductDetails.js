@@ -41,7 +41,7 @@ const ProductDetails = () => {
       <img className='size-[300px] mx-auto' src={product.image} alt={product.name} />
       <div className='text-[19px] text-left ms-[10px]'>
         <p>Description: {product.description}</p>
-        <p>Prix: {product.price} $</p>
+        <p>Prix: {product.price} FCFA</p>
         <p>Taille(s) disponible(s): {product.sizes.join(', ')}</p>
         <p>Couleur(s) disponible(s): {product.colors.join(', ')}</p>
         <h3>Images supplémentaires:</h3>

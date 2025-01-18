@@ -16,39 +16,43 @@ const CartModal = ({ isOpen, onRequestClose, cartItems, clearCart }) => {
 		}
 	};
 
-	const handleWhatsApp = () => {
-		if (cartItems.length === 0) {
-			alert("Votre panier est vide, rien à envoyer.");
-			return;
-		}
+const handleWhatsApp = () => {
+	if (cartItems.length === 0) {
+		alert("Votre panier est vide, rien à envoyer.");
+		return;
+	}
 
-		// Formater le contenu du panier
-		const message = cartItems
-			.map(
-				(item) =>
-					`${item.image} ${item.name} (x${item.quantity}): ${
-						item.price * item.quantity
-					} FCFA`
-			)
-			.join("\n");
+	// Formater le contenu du panier
+	const message = cartItems
+		.map(
+			(item) =>
+				`🛒 *${item.name}* (x${item.quantity})\n💰 Prix: *${
+					item.price * item.quantity
+				} FCFA*\n🖼️ [Voir l'image](${item.image})\n`
+		)
+		.join("\n");
 
-		// Remplace le numéro par celui que tu veux
-		const phoneNumber = "+221785975058"; 
-		const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
-			message
-		)}`;
+	// Ajouter un message d'en-tête
+	const headerMessage = "*Voici mon panier :*\n\n";
 
-		// Ouvrir WhatsApp
-		window.open(whatsappUrl, "_blank");
+	// Remplace le numéro par celui que tu veux
+	const phoneNumber = "+221785975058";
+	const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+		headerMessage + message
+	)}`;
 
-		// Effacer le contenu du panier
-		clearCart();
-	};
+	// Ouvrir WhatsApp
+	window.open(whatsappUrl, "_blank");
+
+	// Effacer le contenu du panier
+	clearCart();
+};
+
 
 
 	return isOpen ? (
-		<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-			<div className="bg-white rounded-lg p-6 w-96">
+		<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-85 z-50">
+			<div className="bg-white rounded-lg p-6 w-96 md:w-[700px]">
 				<h2 className="text-lg font-bold">Votre Panier</h2>
 				{cartItems.length === 0 ? (
 					<p>Votre panier est vide.</p>
@@ -72,7 +76,9 @@ const CartModal = ({ isOpen, onRequestClose, cartItems, clearCart }) => {
 											<p>{item.name}</p>
 											<p>Quantité: {item.quantity}</p>
 										</div>
-										<p>{item.price * item.quantity} FCFA</p>
+										<p>
+											{item.price} * {item.quantity} = {item.price * item.quantity} FCFA
+										</p>
 									</li>
 								))}
 							</ul>

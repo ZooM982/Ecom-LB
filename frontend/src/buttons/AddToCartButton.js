@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { MdShoppingCart } from "react-icons/md";
+
 
 const AddToCartButton = ({ product, addToCart }) => {
 	const [quantity, setQuantity] = useState(1);
@@ -40,9 +42,9 @@ const AddToCartButton = ({ product, addToCart }) => {
 			</button>
 			<button
 				onClick={handleAddToCart}
-				className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 ml-2"
+				className="bg-green-500 text-white py-2 px-4 rounded hover:bg-blue-600 ml-2"
 			>
-				Add to Cart
+				<span className="text-white"><MdShoppingCart/></span>
 			</button>
 		</div>
 	);

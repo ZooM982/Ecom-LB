@@ -44,7 +44,7 @@ const Men = () => {
             <h3 className="text-lg font-semibold">{product.name}</h3>
             </Link>
               <p className="text-gray-600 mb-2">{product.description}</p>
-              <p className="text-blue-500 font-bold">${product.price}</p>
+              <p className="text-blue-500 font-bold">{product.price} FCFA</p>
             </div>
           ))}
         </div>

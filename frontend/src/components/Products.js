@@ -27,7 +27,7 @@ function Products({ addToCart }) {
   }, [category]);
 
   return (
-    <section className="container mx-auto py-12">
+    <section className="container mx-auto py-12 px-5">
       <h2 className="text-3xl font-bold mb-8">
         {category ? `${category.charAt(0).toUpperCase() + category.slice(1)} Collection` : 'Featured Collections'}
       </h2>
@@ -38,7 +38,7 @@ function Products({ addToCart }) {
             <img src={product.image} alt={product.name} className="w-full h-48 object-cover rounded-md mb-4" />
             <h3 className="text-lg font-semibold">{product.name}</h3>
             </Link>
-            <p className="text-gray-600 mb-2">{product.price}FCFA</p>
+            <p className="text-gray-600 mb-2">{product.price} FCFA</p>
             <AddToCartButton product={product} addToCart={addToCart} />
           </div>
         ))}

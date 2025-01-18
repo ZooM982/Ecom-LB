@@ -6,11 +6,11 @@ import { useAuth } from '../context/AuthContext';
 
 const LoginButton = () => {
   const navigate = useNavigate();
-  const { user, onLogout } = useAuth(); // Récupérer l'utilisateur et la fonction de déconnexion depuis le contexte
+  const { user, onLogout } = useAuth(); 
 
   const handleLogout = () => {
-    onLogout(); // Appelle la fonction de déconnexion depuis le contexte
-    navigate('/'); // Redirige l'utilisateur vers la page d'accueil après déconnexion
+    onLogout(); 
+    navigate('/'); 
   };
 
   return (

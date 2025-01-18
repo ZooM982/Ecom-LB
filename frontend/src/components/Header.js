@@ -2,11 +2,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import LoginButton from '../buttons/loginButton';
-import CartIcon from '../components/CartIcon'; // Importer le composant CartIcon
+import CartIcon from '../components/CartIcon'; 
 import { useAuth } from '../context/AuthContext';
 
 const Header = ({ toggleCart, cartItems }) => {
-  const { isAuthenticated, logout } = useAuth(); // Utiliser le hook pour obtenir l'état d'authentification et la fonction de déconnexion
+  const { isAuthenticated, logout } = useAuth(); 
 
   return (
     <header className="bg-gray-800 text-white p-4">
@@ -25,12 +25,12 @@ const Header = ({ toggleCart, cartItems }) => {
         <div className='flex justify-between md:w-[80px] text-[25px] text-white me-[10px]'>
           <button onClick={toggleCart} aria-label="Ouvrir le panier">
             <span>
-              <CartIcon cartItems={cartItems} /> {/* Afficher le CartIcon */}
+              <CartIcon cartItems={cartItems} /> 
             </span>
           </button>
           <LoginButton 
             isAuthenticated={isAuthenticated} 
-            onLogout={logout} // Utiliser la fonction de déconnexion du hook
+            onLogout={logout}
           />
         </div>
       </nav>

@@ -8,7 +8,7 @@ const productSchema = new mongoose.Schema({
   price: {
     type: Number,
     required: true,
-    min: 0 // S'assurer que le prix ne peut pas être négatif
+    min: 0 
   },
   description: {
     type: String,
@@ -16,43 +16,43 @@ const productSchema = new mongoose.Schema({
   },
   image: {
     type: String,
-    required: true, // Image principale du produit
+    required: true, 
   },
   additionalImages: {
-    type: [String], // Un tableau pour les images supplémentaires
-    default: [], // Par défaut, c'est un tableau vide
+    type: [String], 
+    default: [], 
   },
   sizes: {
-    type: [String], // Un tableau pour les tailles disponibles
+    type: [String], 
     required: true,
     validate: {
       validator: function(v) {
-        return v.length > 0; // S'assurer qu'il y a au moins une taille
+        return v.length > 0; 
       },
       message: props => `${props.value} ne contient aucune taille valide!`
     }
   },
   colors: {
-    type: [String], // Un tableau pour les couleurs disponibles
+    type: [String], 
     required: true,
     validate: {
       validator: function(v) {
-        return v.length > 0; // S'assurer qu'il y a au moins une couleur
+        return v.length > 0; 
       },
       message: props => `${props.value} ne contient aucune couleur valide!`
     }
   },
   category: {
     type: String,
-    enum: ['Men', 'Women', 'Kids', 'Accessories', 'Sale'], // Définir les catégories possibles
+    enum: ['Men', 'Women', 'Kids', 'Accessories', 'Sale'],
     required: true,
   },
   stock: {
     type: Number,
-    default: 0, // Par défaut, le stock est de 0
+    default: 0, 
   },
 }, {
-  timestamps: true, // Ajoute automatiquement createdAt et updatedAt
+  timestamps: true, 
 });
 
 module.exports = mongoose.model('Product', productSchema);

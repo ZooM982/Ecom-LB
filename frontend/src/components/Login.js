@@ -17,10 +17,13 @@ const Login = () => {
       onLogin(token, user);
 
       if (user.role === "admin") {
-        navigate("/dashboard");
-      } else {
-        navigate("/");
-      }
+				navigate("/dashboard");
+			} else if (user.role === "user") {
+				navigate("/"); 
+			} else {
+				setError("Rôle inconnu, contactez l'administrateur.");
+			}
+
 
       setUsername("");
       setPassword("");

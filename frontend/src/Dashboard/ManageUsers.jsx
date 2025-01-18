@@ -50,63 +50,72 @@ const ManageUsers = () => {
   };
 
   return (
-    <div className="manage-users">
-      <h2>Gestion des utilisateurs</h2>
-      <form onSubmit={handleAddUser} className="user-form">
-        <input
-          type="text"
-          placeholder="Nom de l'utilisateur"
-          value={newUser.username}  // Utilisation de 'username'
-          onChange={(e) => setNewUser({ ...newUser, username: e.target.value })}
-          required
-          className="input-field"
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={newUser.email}
-          onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
-          required
-          className="input-field"
-        />
-        <input
-          type="password"
-          placeholder="Mot de passe"
-          value={newUser.password}
-          onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
-          required
-          className="input-field"
-        />
-        <select
-          value={newUser.role}
-          onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}
-          className="input-field"
-        >
-          <option value="user">Utilisateur</option>
-          <option value="admin">Admin</option>
-        </select>
-        <button type="submit" className="add-user-button">Ajouter utilisateur</button>
-      </form>
-
-      <h3>Liste des utilisateurs</h3>
-      <ul className="user-list">
-        {users.map(user => (
-          <li key={user._id} className="user-item">
-            <div>
-              <strong>{user.username}</strong> <br />
-              {user.email} - <span className="role-label">{user.role}</span>
-            </div>
-            <button
-              onClick={() => handleDeleteUser(user._id)}
-              className="delete-button"
-            >
-              Supprimer
-            </button>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+		<div className="manage-users md:flex ">
+			<div className="md:w-[45%] mx-auto w-full">
+				<h2>Gestion des utilisateurs</h2>
+				<form onSubmit={handleAddUser} className="user-form">
+					<input
+						type="text"
+						placeholder="Nom de l'utilisateur"
+						value={newUser.username} // Utilisation de 'username'
+						onChange={(e) =>
+							setNewUser({ ...newUser, username: e.target.value })
+						}
+						required
+						className="input-field"
+					/>
+					<input
+						type="email"
+						placeholder="Email"
+						value={newUser.email}
+						onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
+						required
+						className="input-field"
+					/>
+					<input
+						type="password"
+						placeholder="Mot de passe"
+						value={newUser.password}
+						onChange={(e) =>
+							setNewUser({ ...newUser, password: e.target.value })
+						}
+						required
+						className="input-field"
+					/>
+					<select
+						value={newUser.role}
+						onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}
+						className="input-field"
+					>
+						<option value="user">Utilisateur</option>
+						<option value="admin">Admin</option>
+					</select>
+					<button type="submit" className="add-user-button">
+						Ajouter utilisateur
+					</button>
+				</form>
+			</div>
+			<div className="md:w-[45%] mx-auto w-full">
+				<h3>Liste des utilisateurs</h3>
+				<ul className="user-list">
+					{users.map((user) => (
+						<li key={user._id} className="user-item md:flex">
+							<div>
+								<strong>{user.username}</strong> <br />
+								{user.email} - <span className="role-label">{user.role}</span>
+							</div>
+							<button
+								onClick={() => handleDeleteUser(user._id)}
+								className="delete-button"
+							>
+								Supprimer
+							</button>
+						</li>
+					))}
+				</ul>
+			</div>
+		</div>
+	);
 };
 
 export default ManageUsers;

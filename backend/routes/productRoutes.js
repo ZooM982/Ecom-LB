@@ -5,7 +5,7 @@ const Product = require("../models/Product");
 
 const router = express.Router();
 
-// Configuration de Multer
+// Configuration de Multer pour le stockage des fichiers
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
 		cb(null, "uploads/"); // Dossier de stockage des images
@@ -17,13 +17,14 @@ const storage = multer.diskStorage({
 });
 
 // Créer une instance de multer avec la configuration de stockage
-const upload = multer({ storage }).single("image");
+const upload = multer({ storage }).single("image"); // Pour l'image principale
+const uploadMultiple = multer({ storage }).array("additionalImages"); // Pour plusieurs images supplémentaires
 
 // Ajouter un produit
-router.post("/", upload, async (req, res) => {
+router.post("/", upload, uploadMultiple, async (req, res) => {
 	const { name, price, description, category, sizes, colors, stock } = req.body;
 
-	// Vérifiez si le fichier est fourni
+	// Vérifiez si le fichier principal (image) est fourni
 	const image = req.file
 		? `https://ecom-lb.onrender.com/uploads/${req.file.filename}`
 		: null;
@@ -31,6 +32,13 @@ router.post("/", upload, async (req, res) => {
 	if (!image) {
 		return res.status(400).json({ message: "L'image est obligatoire." });
 	}
+
+	// Vérification des images supplémentaires
+	const additionalImages = req.files
+		? req.files.map(
+				(file) => `https://ecom-lb.onrender.com/uploads/${file.filename}`
+		  )
+		: [];
 
 	try {
 		// Convertir les tailles et couleurs en tableaux si ce ne sont pas déjà des tableaux
@@ -47,6 +55,7 @@ router.post("/", upload, async (req, res) => {
 			sizes: productSizes,
 			colors: productColors,
 			stock,
+			additionalImages, // Ajout des images supplémentaires
 		});
 
 		// Sauvegarder le produit dans la base de données
@@ -115,7 +124,7 @@ router.delete("/:id", async (req, res) => {
 });
 
 // Route PUT pour mettre à jour un produit
-router.put("/:id", upload, async (req, res) => {
+router.put("/:id", upload, uploadMultiple, async (req, res) => {
 	const { id } = req.params;
 	const { name, category, description, price, stock, sizes, colors } = req.body;
 
@@ -157,6 +166,14 @@ router.put("/:id", upload, async (req, res) => {
 		// Gestion de l'image : mettre à jour l'image si elle est envoyée
 		if (req.file) {
 			product.image = `https://ecom-lb.onrender.com/uploads/${req.file.filename}`;
+		}
+
+		// Gestion des images supplémentaires : ajouter les nouvelles images
+		if (req.files && req.files.length > 0) {
+			const additionalImages = req.files.map(
+				(file) => `https://ecom-lb.onrender.com/uploads/${file.filename}`
+			);
+			product.additionalImages.push(...additionalImages); // Ajouter les nouvelles images
 		}
 
 		// Sauvegarde du produit mis à jour

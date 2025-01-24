@@ -41,6 +41,11 @@ const ProductDetails = () => {
 	if (error) return <div>{error}</div>; // Afficher l'erreur
 	if (!product) return <div>Produit non trouvé.</div>;
 
+	// Vérifier si additionalImages est défini et est un tableau
+	const additionalImages = Array.isArray(product.additionalImages)
+		? product.additionalImages
+		: [];
+
 	return (
 		<div className="product-details m:size-[30%] mx-auto text-center">
 			<BackButton />
@@ -48,26 +53,37 @@ const ProductDetails = () => {
 			<img
 				className="size-[300px] mx-auto"
 				src={product.image}
-				alt={product.name}
+				alt={`Image de ${product.name}`}
 			/>
-			<div className="text-[19px] text-left ms-[10px]">
-				<p>Description: {product.description}</p>
-				<p>Prix: {product.price} FCFA</p>
-				<p>Taille(s) disponible(s): {product.sizes.join(", ")}</p>
-				<p>Couleur(s) disponible(s): {product.colors.join(", ")}</p>
-				<h3>Images supplémentaires:</h3>
+			<div className="text-[19px] text-left ms-[10px] mt-6">
+				<p>
+					<strong>Description:</strong> {product.description}
+				</p>
+				<p>
+					<strong>Prix:</strong> {product.price} FCFA
+				</p>
+				<p>
+					<strong>Taille(s) disponible(s):</strong> {product.sizes.join(", ")}
+				</p>
+				<p>
+					<strong>Couleur(s) disponible(s):</strong> {product.colors.join(", ")}
+				</p>
+				<h3 className="mt-4">Images supplémentaires:</h3>
 			</div>
-			<div className="additional-images grid grid-cols-2 gap-4">
-				{" "}
-				{/* Ajout de styles pour les images supplémentaires */}
-				{product.additionalImages.map((image, index) => (
-					<img
-						key={index}
-						className="w-full h-auto rounded"
-						src={image}
-						alt={`${product.name} - ${index}`}
-					/>
-				))}
+
+			<div className="additional-images grid grid-cols-2 gap-4 mt-4">
+				{additionalImages.length > 0 ? (
+					additionalImages.map((image, index) => (
+						<img
+							key={index}
+							className="w-full h-auto rounded"
+							src={image}
+							alt={`${product.name} - Image supplémentaire ${index + 1}`}
+						/>
+					))
+				) : (
+					<p>Aucune image supplémentaire disponible.</p>
+				)}
 			</div>
 		</div>
 	);

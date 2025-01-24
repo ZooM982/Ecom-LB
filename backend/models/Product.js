@@ -1,5 +1,3 @@
-const mongoose = require("mongoose");
-
 const productSchema = new mongoose.Schema(
 	{
 		name: {
@@ -48,6 +46,10 @@ const productSchema = new mongoose.Schema(
 			type: Number,
 			default: 0,
 		},
+		additionalImages: {
+			type: [String],
+			default: [],
+		}, 
 	},
 	{
 		timestamps: true,

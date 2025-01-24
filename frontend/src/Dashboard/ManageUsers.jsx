@@ -1,55 +1,67 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import './ManageUsers.css'; // Import des styles
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./ManageUsers.css"; // Import des styles
 
 const ManageUsers = () => {
-  const [users, setUsers] = useState([]);
-  const [newUser, setNewUser] = useState({
-    username: '',  // Remplacement de 'name' par 'username'
-    email: '',
-    password: '',
-    role: 'user',
-  });
+	const [users, setUsers] = useState([]);
+	const [newUser, setNewUser] = useState({
+		username: "", // Remplacement de 'name' par 'username'
+		email: "",
+		password: "",
+		role: "user",
+	});
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get('https://ecom-lb.onrender.com/api/users');
-        console.log('Utilisateurs récupérés :', response.data);  // Vérification de la réponse
-        setUsers(response.data);
-      } catch (error) {
-        console.error('Erreur lors de la récupération des utilisateurs :', error);
-      }
-    };
-    fetchUsers();
-  }, []);
+	useEffect(() => {
+		const fetchUsers = async () => {
+			try {
+				const response = await axios.get(
+					"https://ecom-lb.onrender.com/api/users"
+				);
+				console.log("Utilisateurs récupérés :", response.data); // Vérification de la réponse
+				setUsers(response.data);
+			} catch (error) {
+				console.error(
+					"Erreur lors de la récupération des utilisateurs :",
+					error
+				);
+			}
+		};
+		fetchUsers();
+	}, []);
 
-  const handleAddUser = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post('https://ecom-lb.onrender.com/api/users/register', newUser);
-      alert('Utilisateur ajouté !');
-      setUsers([...users, response.data.user]);  // Ajout de la réponse au tableau d'utilisateurs
-      setNewUser({ username: '', email: '', password: '', role: 'user' });
-    } catch (error) {
-      console.error(error);
-      alert(`Erreur lors de l'ajout de l'utilisateur : ${error.response?.data?.message || 'Erreur inconnue'}`);
-    }
-  };
+	const handleAddUser = async (e) => {
+		e.preventDefault();
+		try {
+			const response = await axios.post(
+				"https://ecom-lb.onrender.com/api/users/register",
+				newUser
+			);
+			alert("Utilisateur ajouté !");
+			setUsers([...users, response.data.user]); // Ajout de la réponse au tableau d'utilisateurs
+			setNewUser({ username: "", email: "", password: "", role: "user" });
+		} catch (error) {
+			console.error(error);
+			alert(
+				`Erreur lors de l'ajout de l'utilisateur : ${
+					error.response?.data?.message || "Erreur inconnue"
+				}`
+			);
+		}
+	};
 
-  const handleDeleteUser = async (userId) => {
-    console.log('ID utilisateur à supprimer :', userId);  // Vérification de l'ID
-    try {
-      await axios.delete(`https://ecom-lb.onrender.com/api/users/${userId}`);
-      setUsers(users.filter(user => user._id !== userId));
-      alert('Utilisateur supprimé !');
-    } catch (error) {
-      console.error(error);
-      alert('Erreur lors de la suppression.');
-    }
-  };
+	const handleDeleteUser = async (userId) => {
+		console.log("ID utilisateur à supprimer :", userId); // Vérification de l'ID
+		try {
+			await axios.delete(`https://ecom-lb.onrender.com/api/users/${userId}`);
+			setUsers(users.filter((user) => user._id !== userId));
+			alert("Utilisateur supprimé !");
+		} catch (error) {
+			console.error(error);
+			alert("Erreur lors de la suppression.");
+		}
+	};
 
-  return (
+	return (
 		<div className="manage-users md:flex ">
 			<div className="md:w-[45%] mx-auto w-full">
 				<h2>Gestion des utilisateurs</h2>

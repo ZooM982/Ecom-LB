@@ -15,6 +15,7 @@ const ManageProducts = () => {
 	const [previewImage, setPreviewImage] = useState(null);
 	const [products, setProducts] = useState([]);
 	const [loading, setLoading] = useState(true);
+	const [editingProduct, setEditingProduct] = useState(null);
 
 	// Récupérer tous les produits
 	useEffect(() => {
@@ -39,7 +40,7 @@ const ManageProducts = () => {
 
 		if (type === "file") {
 			setNewProduct((prev) => ({ ...prev, image: files[0] }));
-			setPreviewImage(URL.createObjectURL(files[0])); // Prévisualisation de l'image principale
+			setPreviewImage(URL.createObjectURL(files[0])); // Prévisualisation de l'image
 		} else {
 			setNewProduct((prev) => ({
 				...prev,
@@ -49,7 +50,8 @@ const ManageProducts = () => {
 		}
 	};
 
-	const handleAddProduct = async (e) => {
+	// Fonction pour ajouter ou modifier un produit
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 
 		const formData = new FormData();
@@ -67,17 +69,41 @@ const ManageProducts = () => {
 		formData.append("colors", newProduct.colors.join(","));
 
 		try {
-			const response = await axios.post(
-				"https://ecom-lb.onrender.com/api/products",
-				formData,
-				{
-					headers: {
-						"Content-Type": "multipart/form-data",
-					},
-				}
-			);
+			let response;
 
-			setProducts([...products, response.data]);
+			if (editingProduct) {
+				// Mise à jour d'un produit existant
+				response = await axios.put(
+					`https://ecom-lb.onrender.com/api/products/${editingProduct._id}`,
+					formData,
+					{
+						headers: {
+							"Content-Type": "multipart/form-data",
+						},
+					}
+				);
+
+				// Mise à jour de la liste des produits après modification
+				setProducts(
+					products.map((product) =>
+						product._id === editingProduct._id ? response.data : product
+					)
+				);
+			} else {
+				// Ajout d'un nouveau produit
+				response = await axios.post(
+					"https://ecom-lb.onrender.com/api/products",
+					formData,
+					{
+						headers: {
+							"Content-Type": "multipart/form-data",
+						},
+					}
+				);
+				setProducts([...products, response.data]);
+			}
+
+			// Réinitialiser l'état après ajout ou modification
 			setNewProduct({
 				name: "",
 				category: "",
@@ -89,9 +115,26 @@ const ManageProducts = () => {
 				stock: 0,
 			});
 			setPreviewImage(null);
+			setEditingProduct(null); // Réinitialiser l'état d'édition
 		} catch (error) {
-			console.error("Erreur lors de l'ajout du produit", error);
+			console.error("Erreur lors de l'ajout/modification du produit", error);
 		}
+	};
+
+	// Fonction pour charger un produit dans le formulaire pour modification
+	const handleEditProduct = (product) => {
+		setNewProduct({
+			name: product.name,
+			category: product.category,
+			description: product.description,
+			price: product.price,
+			image: product.image,
+			sizes: product.sizes,
+			colors: product.colors,
+			stock: product.stock,
+		});
+		setPreviewImage(product.image); // Prévisualisation de l'image existante
+		setEditingProduct(product); // Marquer le produit comme étant en cours de modification
 	};
 
 	const handleDeleteProduct = async (productId) => {
@@ -122,10 +165,13 @@ const ManageProducts = () => {
 			{/* Formulaire d'ajout de produit */}
 			<div className="md:flex">
 				<form
-					onSubmit={handleAddProduct}
-					className="space-y-6 bg-gray-100 p-6 rounded-lg md:w-[48%] mx-auto "
+					onSubmit={handleSubmit}
+					className="space-y-6 bg-gray-100 p-6 rounded-lg md:w-[48%] mx-auto"
 				>
-					<h3 className="text-xl font-bold">Ajouter un Produit</h3>
+					<h3 className="text-xl font-bold">
+						{editingProduct ? "Modifier" : "Ajouter"} un Produit
+					</h3>
+					{/* Nom du produit */}
 					<div>
 						<label className="block text-gray-700">Nom</label>
 						<input
@@ -137,6 +183,7 @@ const ManageProducts = () => {
 							required
 						/>
 					</div>
+					{/* Catégorie du produit */}
 					<div>
 						<label className="block text-gray-700">Catégorie</label>
 						<select
@@ -154,6 +201,7 @@ const ManageProducts = () => {
 							<option value="Sale">Sale</option>
 						</select>
 					</div>
+					{/* Description du produit */}
 					<div>
 						<label className="block text-gray-700">Description</label>
 						<textarea
@@ -164,6 +212,7 @@ const ManageProducts = () => {
 							required
 						/>
 					</div>
+					{/* Prix du produit */}
 					<div>
 						<label className="block text-gray-700">Prix</label>
 						<input
@@ -175,23 +224,43 @@ const ManageProducts = () => {
 							required
 						/>
 					</div>
+					{/* Image du produit */}
 					<div>
 						<label className="block text-gray-700">Image Principale</label>
+						{previewImage ? (
+							<div className="flex items-center space-x-4">
+								<img
+									src={previewImage}
+									alt="Prévisualisation"
+									className="mt-2 w-[50%] h-auto rounded-md"
+								/>
+								<button
+									type="button"
+									onClick={() => setPreviewImage(null)}
+									className="bg-red-500 text-white px-2 py-1 rounded-md"
+								>
+									Supprimer
+								</button>
+							</div>
+						) : (
+							<button
+								type="button"
+								onClick={() => document.getElementById("file-input").click()}
+								className="bg-blue-500 w-full h-[70px] text-white px-4 py-2 rounded-lg"
+							>
+								+
+							</button>
+						)}
 						<input
 							type="file"
+							id="file-input"
 							name="image"
 							onChange={handleInputChange}
-							className="w-full px-3 py-2 border rounded-lg"
-							required
+							className="hidden" // Cacher l'input file
 						/>
-						{previewImage && (
-							<img
-								src={previewImage}
-								alt="Prévisualisation"
-								className="mt-2 w-32 h-auto"
-							/>
-						)}
 					</div>
+
+					{/* Tailles du produit */}
 					<div>
 						<label className="block text-gray-700">
 							Tailles (séparées par des virgules)
@@ -205,6 +274,7 @@ const ManageProducts = () => {
 							required
 						/>
 					</div>
+					{/* Couleurs du produit */}
 					<div>
 						<label className="block text-gray-700">
 							Couleurs (séparées par des virgules)
@@ -218,6 +288,7 @@ const ManageProducts = () => {
 							required
 						/>
 					</div>
+					{/* Stock du produit */}
 					<div>
 						<label className="block text-gray-700">Stock</label>
 						<input
@@ -233,7 +304,7 @@ const ManageProducts = () => {
 						type="submit"
 						className="w-full bg-blue-500 text-white py-2 rounded-lg"
 					>
-						Ajouter Produit
+						{editingProduct ? "Modifier Produit" : "Ajouter Produit"}
 					</button>
 				</form>
 
@@ -259,16 +330,23 @@ const ManageProducts = () => {
 										<div>
 											<h4 className="text-lg font-bold">{product.name}</h4>
 											<p>{product.price} FCFA</p>
-											<p>{product.quantity}</p>
 											<p>{product.stock} Article(s)</p>
 										</div>
 									</div>
-									<button
-										onClick={() => handleDeleteProduct(product._id)}
-										className="bg-red-500 text-white px-3 py-1 rounded-lg"
-									>
-										Supprimer
-									</button>
+									<div className="flex space-x-2">
+										<button
+											onClick={() => handleEditProduct(product)}
+											className="bg-yellow-500 text-white px-4 py-2 rounded-md"
+										>
+											Modifier
+										</button>
+										<button
+											onClick={() => handleDeleteProduct(product._id)}
+											className="bg-red-500 text-white px-4 py-2 rounded-md"
+										>
+											Supprimer
+										</button>
+									</div>
 								</li>
 							))}
 						</ul>

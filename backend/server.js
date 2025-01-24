@@ -8,21 +8,19 @@ const usersRoutes = require("./routes/userRoutes");
 
 dotenv.config();
 
-const app = express();const allowedOrigins = [
-	"https://lady-boss.onrender.com", 
+const app = express();
+const allowedOrigins = [
+	"https://lady-boss.onrender.com",
+	"http://localhost:3000",
 ];
 
 app.use(
 	cors({
-		origin: (origin, callback) => {
-			if (
-				!origin ||
-				allowedOrigins.includes(origin) ||
-				process.env.NODE_ENV === "development"
-			) {
+		origin: function (origin, callback) {
+			if (!origin || allowedOrigins.includes(origin)) {
 				callback(null, true);
 			} else {
-				callback(new Error("Not allowed by CORS"));
+				callback(new Error("Origine non autorisée"));
 			}
 		},
 	})

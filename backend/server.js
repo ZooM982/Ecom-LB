@@ -12,6 +12,7 @@ const app = express();
 const allowedOrigins = [
 	"https://lady-boss.onrender.com",
 	"http://localhost:3000",
+	"*"
 ];
 
 app.use(

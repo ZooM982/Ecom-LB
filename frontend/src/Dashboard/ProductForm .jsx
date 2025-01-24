@@ -1,165 +1,179 @@
-import React from "react";
-import ImagePreview from "./ImagePreview";
+import React, { useState, useEffect } from "react";
 
-const ProductForm = ({
-	newProduct,
-	handleInputChange,
-	handleSubmit,
-	previewImage,
-	setPreviewImage,
-	editingProduct,
-}) => (
-	<form
-		onSubmit={handleSubmit}
-		className="space-y-6 bg-gray-100 p-6 rounded-lg"
-	>
-		<h3 className="text-xl font-bold">
-			{editingProduct ? "Modifier" : "Ajouter"} un Produit
-		</h3>
+const ProductForm = ({ onSubmit, initialData = null }) => {
+	const [product, setProduct] = useState({
+		name: "",
+		price: "",
+		description: "",
+		category: "Men",
+		sizes: "",
+		colors: "",
+		stock: "",
+		image: null,
+		additionalImages: [],
+	});
 
-		{/* Nom du produit */}
-		<div>
-			<label className="block text-gray-700">Nom</label>
+	const [error, setError] = useState("");
+
+	useEffect(() => {
+		if (initialData) {
+			setProduct({
+				name: initialData.name || "",
+				price: initialData.price || "",
+				description: initialData.description || "",
+				category: initialData.category || "Men",
+				sizes: initialData.sizes ? initialData.sizes.join(", ") : "",
+				colors: initialData.colors ? initialData.colors.join(", ") : "",
+				stock: initialData.stock || "",
+				image: null,
+				additionalImages: [],
+			});
+		}
+	}, [initialData]);
+
+	const handleChange = (e) => {
+		const { name, value, files } = e.target;
+		if (name === "image" || name === "additionalImages") {
+			setProduct((prev) => ({
+				...prev,
+				[name]: name === "image" ? files[0] : files,
+			}));
+		} else {
+			setProduct((prev) => ({ ...prev, [name]: value }));
+		}
+	};
+
+	const validate = () => {
+		if (!product.sizes.trim()) {
+			setError("Sizes cannot be empty.");
+			return false;
+		}
+		if (!product.colors.trim()) {
+			setError("Colors cannot be empty.");
+			return false;
+		}
+		setError("");
+		return true;
+	};
+
+	const submitForm = (e) => {
+		e.preventDefault();
+		if (!validate()) return;
+
+		const formattedProduct = {
+			...product,
+			sizes: product.sizes.split(",").map((size) => size.trim()),
+			colors: product.colors.split(",").map((color) => color.trim()),
+		};
+
+		onSubmit(formattedProduct); // Appelle la fonction transmise par le parent
+	};
+
+	return (
+		<form
+			onSubmit={submitForm}
+			className="p-6 bg-gray-100 rounded-lg space-y-6"
+		>
+			<h3 className="text-xl font-bold">
+				{initialData ? "Edit Product" : "Add Product"}
+			</h3>
+			{error && (
+				<div className="text-red-500 text-sm p-2 border border-red-500 rounded-lg">
+					{error}
+				</div>
+			)}
 			<input
 				type="text"
 				name="name"
-				value={newProduct.name}
-				onChange={handleInputChange}
-				className="w-full px-3 py-2 border rounded-lg"
+				value={product.name}
+				onChange={handleChange}
+				placeholder="Name"
 				required
+				className="w-full p-2 border rounded-lg"
 			/>
-		</div>
-
-		{/* Image principale */}
-		<div>
-			<label className="block text-gray-700">Image Principale</label>
-			{previewImage ? (
-				<ImagePreview
-					previewImage={previewImage}
-					onRemove={() => setPreviewImage(null)}
-				/>
-			) : (
-				<button
-					type="button"
-					onClick={() => document.getElementById("file-input").click()}
-					className="bg-blue-500 w-full h-[70px] text-white px-4 py-2 rounded-lg"
-				>
-					+
-				</button>
-			)}
-			<input
-				type="file"
-				id="file-input"
-				name="image"
-				onChange={handleInputChange}
-				className="hidden"
-			/>
-		</div>
-
-		{/* Prix du produit */}
-		<div>
-			<label className="block text-gray-700">Prix</label>
 			<input
 				type="number"
 				name="price"
-				value={newProduct.price}
-				onChange={handleInputChange}
-				className="w-full px-3 py-2 border rounded-lg"
+				value={product.price}
+				onChange={handleChange}
+				placeholder="Price"
 				required
-				min="0"
+				className="w-full p-2 border rounded-lg"
 			/>
-		</div>
-
-		{/* Description du produit */}
-		<div>
-			<label className="block text-gray-700">Description</label>
 			<textarea
 				name="description"
-				value={newProduct.description}
-				onChange={handleInputChange}
-				className="w-full px-3 py-2 border rounded-lg"
+				value={product.description}
+				onChange={handleChange}
+				placeholder="Description"
 				required
+				className="w-full p-2 border rounded-lg"
 			/>
-		</div>
-
-		{/* Tailles disponibles */}
-		<div>
-			<label className="block text-gray-700">Tailles</label>
+			<select
+				name="category"
+				value={product.category}
+				onChange={handleChange}
+				className="w-full p-2 border rounded-lg"
+			>
+				<option value="Men">Men</option>
+				<option value="Women">Women</option>
+				<option value="Kids">Kids</option>
+				<option value="Accessories">Accessories</option>
+			</select>
 			<input
 				type="text"
 				name="sizes"
-				value={newProduct.sizes.join(", ")}
-				onChange={(e) => handleInputChange(e, "sizes")}
-				className="w-full px-3 py-2 border rounded-lg"
-				required
+				value={product.sizes}
+				onChange={handleChange}
+				placeholder="Sizes (comma-separated)"
+				className="w-full p-2 border rounded-lg"
 			/>
-			<small>Sépare les tailles par des virgules</small>
-		</div>
-
-		{/* Couleurs disponibles */}
-		<div>
-			<label className="block text-gray-700">Couleurs</label>
 			<input
 				type="text"
 				name="colors"
-				value={newProduct.colors.join(", ")}
-				onChange={(e) => handleInputChange(e, "colors")}
-				className="w-full px-3 py-2 border rounded-lg"
-				required
+				value={product.colors}
+				onChange={handleChange}
+				placeholder="Colors (comma-separated)"
+				className="w-full p-2 border rounded-lg"
 			/>
-			<small>Sépare les couleurs par des virgules</small>
-		</div>
-
-		{/* Catégorie du produit */}
-		<div>
-			<label className="block text-gray-700">Catégorie</label>
-			<select
-				name="category"
-				value={newProduct.category}
-				onChange={handleInputChange}
-				className="w-full px-3 py-2 border rounded-lg"
-				required
-			>
-				<option value="Men">Homme</option>
-				<option value="Women">Femme</option>
-				<option value="Kids">Enfants</option>
-				<option value="Accessories">Accessoires</option>
-				<option value="Sale">Vente</option>
-			</select>
-		</div>
-
-		{/* Stock disponible */}
-		<div>
-			<label className="block text-gray-700">Stock</label>
 			<input
 				type="number"
 				name="stock"
-				value={newProduct.stock}
-				onChange={handleInputChange}
-				className="w-full px-3 py-2 border rounded-lg"
+				value={product.stock}
+				onChange={handleChange}
+				placeholder="Stock"
 				min="0"
+				className="w-full p-2 border rounded-lg"
 			/>
-		</div>
-
-		{/* Images supplémentaires */}
-		<div>
-			<label className="block text-gray-700">Images supplémentaires</label>
-			<input
-				type="file"
-				name="additionalImages"
-				onChange={handleInputChange}
-				multiple
-				className="w-full px-3 py-2 border rounded-lg"
-			/>
-		</div>
-
-		<button
-			type="submit"
-			className="w-full bg-blue-500 text-white py-2 rounded-lg"
-		>
-			{editingProduct ? "Modifier Produit" : "Ajouter Produit"}
-		</button>
-	</form>
-);
+			<div>
+				<label>Main Image:</label>
+				<input
+					type="file"
+					name="image"
+					onChange={handleChange}
+					className="w-full p-2 border rounded-lg"
+					accept="image/*"
+					{...(initialData ? {} : { required: true })}
+				/>
+			</div>
+			<div>
+				<label>Additional Images:</label>
+				<input
+					type="file"
+					name="additionalImages"
+					onChange={handleChange}
+					className="w-full p-2 border rounded-lg"
+					accept="image/*"
+					multiple
+				/>
+			</div>
+			<button
+				type="submit"
+				className="bg-blue-500 text-white p-2 rounded-lg w-full"
+			>
+				{initialData ? "Update Product" : "Submit"}
+			</button>
+		</form>
+	);
+};
 
 export default ProductForm;

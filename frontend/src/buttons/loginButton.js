@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { CiLogin } from "react-icons/ci";
+import { GrLogout, GrLogin } from "react-icons/gr";
 import { useAuth } from "../context/AuthContext";
 
 const LoginButton = () => {
@@ -14,13 +14,13 @@ const LoginButton = () => {
 
 	return (
 		<div>
-			{auth.user ? ( // Vérifiez si l'utilisateur est authentifié via auth.user
+			{auth.user ? ( 
 				<button onClick={handleLogout} className="flex items-center text-white">
-					Déconnexion
+					<GrLogout />
 				</button>
 			) : (
 				<Link to="/login" className="flex items-center text-white">
-					<CiLogin />
+					<GrLogin />
 				</Link>
 			)}
 		</div>

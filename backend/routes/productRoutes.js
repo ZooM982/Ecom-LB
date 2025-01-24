@@ -26,7 +26,7 @@ router.post("/", upload, uploadMultiple, async (req, res) => {
 
 	// Vérifiez si le fichier principal (image) est fourni
 	const image = req.file
-		? `https://ecom-lb.onrender.com/uploads/${req.file.filename}`
+		? `https://localhost:5000/uploads/${req.file.filename}`
 		: null;
 
 	if (!image) {
@@ -36,7 +36,7 @@ router.post("/", upload, uploadMultiple, async (req, res) => {
 	// Vérification des images supplémentaires
 	const additionalImages = req.files
 		? req.files.map(
-				(file) => `https://ecom-lb.onrender.com/uploads/${file.filename}`
+				(file) => `https://localhost:5000/uploads/${file.filename}`
 		  )
 		: [];
 
@@ -165,13 +165,13 @@ router.put("/:id", upload, uploadMultiple, async (req, res) => {
 
 		// Gestion de l'image : mettre à jour l'image si elle est envoyée
 		if (req.file) {
-			product.image = `https://ecom-lb.onrender.com/uploads/${req.file.filename}`;
+			product.image = `https://localhost:5000/uploads/${req.file.filename}`;
 		}
 
 		// Gestion des images supplémentaires : ajouter les nouvelles images
 		if (req.files && req.files.length > 0) {
 			const additionalImages = req.files.map(
-				(file) => `https://ecom-lb.onrender.com/uploads/${file.filename}`
+				(file) => `https://localhost:5000/uploads/${file.filename}`
 			);
 			product.additionalImages.push(...additionalImages); // Ajouter les nouvelles images
 		}

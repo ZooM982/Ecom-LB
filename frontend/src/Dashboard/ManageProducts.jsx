@@ -143,19 +143,21 @@ const ManageProducts = () => {
 	return (
 		<div className="md:p-6 p-2 space-y-8">
 			<h2 className="text-3xl font-bold text-center">Gérer les Produits</h2>
-			<ProductForm
-				newProduct={newProduct}
-				handleInputChange={handleInputChange}
-				handleSubmit={handleSubmit}
-				previewImage={previewImage}
-				setPreviewImage={setPreviewImage}
-				editingProduct={editingProduct}
-			/>
-			<ProductList
-				products={products}
-				handleEditProduct={handleEditProduct}
-				handleDeleteProduct={handleDeleteProduct}
-			/>
+			<div className="grid md:grid-cols-2 gap-5">
+				<ProductForm
+					newProduct={newProduct}
+					handleInputChange={handleInputChange}
+					handleSubmit={handleSubmit}
+					previewImage={previewImage}
+					setPreviewImage={setPreviewImage}
+					editingProduct={editingProduct}
+				/>
+				<ProductList
+					products={products}
+					handleEditProduct={handleEditProduct}
+					handleDeleteProduct={handleDeleteProduct}
+				/>
+			</div>
 		</div>
 	);
 };

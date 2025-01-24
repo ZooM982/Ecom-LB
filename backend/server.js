@@ -4,6 +4,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const path = require("path");
 const productRoutes = require("./routes/productRoutes");
+const usersRoutes = require("./routes/usersRoutes");
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Routes
 app.use("/api/products", productRoutes);
+app.use("/api/users", usersRoutes);
 
 // Démarrage du serveur
 const PORT = process.env.PORT || 5000;

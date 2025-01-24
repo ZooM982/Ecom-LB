@@ -8,8 +8,26 @@ const usersRoutes = require("./routes/userRoutes");
 
 dotenv.config();
 
-const app = express();
-app.use(cors());
+const app = express();const allowedOrigins = [
+	"https://lady-boss.onrender.com", 
+];
+
+app.use(
+	cors({
+		origin: (origin, callback) => {
+			if (
+				!origin ||
+				allowedOrigins.includes(origin) ||
+				process.env.NODE_ENV === "development"
+			) {
+				callback(null, true);
+			} else {
+				callback(new Error("Not allowed by CORS"));
+			}
+		},
+	})
+);
+
 app.use(express.json());
 
 // Connexion à MongoDB

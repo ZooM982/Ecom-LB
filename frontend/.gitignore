@@ -10,6 +10,8 @@
 
 # production
 /build
+# Ignore le fichier .env
+.env
 
 # misc
 .DS_Store

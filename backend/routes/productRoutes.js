@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
 
 // Créer une instance de multer avec la configuration de stockage
 const upload = multer({ storage }).single("image"); // Pour l'image principale
-const uploadMultiple = multer({ storage }).array("additionalImages"); // Pour plusieurs images supplémentaires
+const uploadMultiple = multer({ storage }).array("additionalImages"); 
 
 // Ajouter un produit
 router.post("/", upload, uploadMultiple, async (req, res) => {

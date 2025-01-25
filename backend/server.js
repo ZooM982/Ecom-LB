@@ -10,9 +10,9 @@ dotenv.config();
 
 const app = express();
 const allowedOrigins = [
-	"https://lady-boss.onrender.com",
+	"https://haurly-shop.onrender.com",
 	"http://localhost:3000",
-	"*"
+	"*",
 ];
 
 app.use(

@@ -7,7 +7,7 @@ const ProductDetails = () => {
 	const { id } = useParams();
 	const [product, setProduct] = useState(null);
 	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState(null); // État pour gérer les erreurs
+	const [error, setError] = useState(null);
 
 	useEffect(() => {
 		const fetchProductDetails = async () => {
@@ -28,9 +28,9 @@ const ProductDetails = () => {
 				);
 				setError(
 					"Erreur lors de la récupération des détails du produit. Veuillez réessayer plus tard."
-				); // Gérer l'erreur
+				);
 			} finally {
-				setLoading(false); // Assurez-vous que le chargement est arrêté
+				setLoading(false);
 			}
 		};
 
@@ -38,24 +38,26 @@ const ProductDetails = () => {
 	}, [id]);
 
 	if (loading) return <div>Chargement...</div>;
-	if (error) return <div>{error}</div>; // Afficher l'erreur
+	if (error) return <div>{error}</div>;
 	if (!product) return <div>Produit non trouvé.</div>;
 
-	// Vérifier si additionalImages est défini et est un tableau
+	// Vérification et traitement des données
 	const additionalImages = Array.isArray(product.additionalImages)
 		? product.additionalImages
 		: [];
+	const sizes = product.sizes ? product.sizes.join(", ") : "Non spécifiées";
+	const colors = product.colors ? product.colors.join(", ") : "Non spécifiées";
 
 	return (
 		<div className="product-details m:size-[30%] mx-auto text-center">
 			<BackButton />
 			<h1 className="font-bold text-[50px]">{product.name}</h1>
 			<img
-				className="size-[300px] mx-auto"
+				className="w-[300px] h-auto mx-auto rounded-lg shadow-md"
 				src={product.image}
 				alt={`Image de ${product.name}`}
 			/>
-			<div className="text-[19px] text-left ms-[10px] mt-6">
+			<div className="text-[19px] text-left mx-4 mt-6">
 				<p>
 					<strong>Description:</strong> {product.description}
 				</p>
@@ -63,12 +65,12 @@ const ProductDetails = () => {
 					<strong>Prix:</strong> {product.price} FCFA
 				</p>
 				<p>
-					<strong>Taille(s) disponible(s):</strong> {product.sizes.join(", ")}
+					<strong>Taille(s) disponible(s):</strong> {sizes}
 				</p>
 				<p>
-					<strong>Couleur(s) disponible(s):</strong> {product.colors.join(", ")}
+					<strong>Couleur(s) disponible(s):</strong> {colors}
 				</p>
-				<h3 className="mt-4">Images supplémentaires:</h3>
+				<h3 className="mt-4 text-lg font-semibold">Images supplémentaires:</h3>
 			</div>
 
 			<div className="additional-images grid grid-cols-2 gap-4 mt-4">
@@ -76,13 +78,15 @@ const ProductDetails = () => {
 					additionalImages.map((image, index) => (
 						<img
 							key={index}
-							className="w-full h-auto rounded"
+							className="w-full h-auto rounded-lg shadow-sm"
 							src={image}
 							alt={`${product.name} - Image supplémentaire ${index + 1}`}
 						/>
 					))
 				) : (
-					<p>Aucune image supplémentaire disponible.</p>
+					<p className="col-span-2 text-gray-500">
+						Aucune image supplémentaire disponible.
+					</p>
 				)}
 			</div>
 		</div>

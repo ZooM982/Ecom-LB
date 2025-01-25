@@ -4,9 +4,9 @@ import ProductForm from "./ProductForm ";
 import ProductList from "./ProductList ";
 
 const ManageProducts = () => {
-	const [products, setProducts] = useState([]); // Liste des produits
-	const [loading, setLoading] = useState(true); // État de chargement
-	const [editingProduct, setEditingProduct] = useState(null); // Produit en cours d'édition
+	const [products, setProducts] = useState([]); 
+	const [loading, setLoading] = useState(true); 
+	const [editingProduct, setEditingProduct] = useState(null); 
 
 	// Charger les produits depuis l'API
 	useEffect(() => {
@@ -31,7 +31,7 @@ const ManageProducts = () => {
 		const formData = new FormData();
 		Object.entries(productData).forEach(([key, value]) => {
 			if (key === "sizes" || key === "colors") {
-				formData.append(key, value.join(",")); // Convertir en chaîne
+				formData.append(key, value.join(","));
 			} else {
 				formData.append(key, value);
 			}
@@ -56,6 +56,7 @@ const ManageProducts = () => {
 						product._id === editingProduct._id ? response.data : product
 					)
 				);
+				alert("Produit mis à jour avec succès !");
 			} else {
 				// Création
 				response = await axios.post(
@@ -64,12 +65,14 @@ const ManageProducts = () => {
 					{ headers: { "Content-Type": "multipart/form-data" } }
 				);
 				setProducts((prev) => [...prev, response.data]);
+				alert("Produit ajouté avec succès !");
 			}
 
 			// Réinitialisation après soumission
 			setEditingProduct(null);
 		} catch (error) {
 			console.error("Erreur lors de l'ajout/mise à jour du produit", error);
+			alert("Une erreur s'est produite. Veuillez réessayer.");
 		}
 	};
 
@@ -80,6 +83,11 @@ const ManageProducts = () => {
 
 	// Supprimer un produit
 	const handleDeleteProduct = async (productId) => {
+		const confirmation = window.confirm(
+			"Êtes-vous sûr de vouloir supprimer ce produit ?"
+		);
+		if (!confirmation) return;
+
 		try {
 			const response = await axios.delete(
 				`https://ecom-lb.onrender.com/api/products/${productId}`
@@ -88,9 +96,11 @@ const ManageProducts = () => {
 				setProducts((prev) =>
 					prev.filter((product) => product._id !== productId)
 				);
+				alert("Produit supprimé avec succès !");
 			}
 		} catch (error) {
 			console.error("Erreur lors de la suppression du produit", error);
+			alert("Une erreur s'est produite. Veuillez réessayer.");
 		}
 	};
 
@@ -98,14 +108,11 @@ const ManageProducts = () => {
 		<div className="md:p-6 p-2 space-y-8">
 			<h2 className="text-3xl font-bold text-center">Gérer les Produits</h2>
 			<div className="grid md:grid-cols-2 gap-5">
-				<ProductForm
-					initialData={editingProduct} // Produit en cours d'édition ou vide
-					onSubmit={handleSubmit} // Soumission (ajout/mise à jour)
-				/>
+				<ProductForm initialData={editingProduct} onSubmit={handleSubmit} />
 				<ProductList
 					products={products}
-					onEdit={handleEditProduct} // Édition
-					onDelete={handleDeleteProduct} // Suppression
+					handleEditProduct={handleEditProduct}
+					handleDeleteProduct={handleDeleteProduct}
 				/>
 			</div>
 		</div>

@@ -21,7 +21,6 @@ import Sale from "./Pages/Sale";
 import Kids from "./Pages/Kids";
 import Dashboard from "./components/Dashboard";
 import ProductDetails from "./Pages/ProductDetails";
-import Butterflies from "./components/butterflies/Butterflies";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import RequireAdminAuth from "./components/RequireAdminAuth";
 import RegisterAdmin from "./components/RegisterAdmin";
@@ -102,7 +101,6 @@ const AppContent = ({
 
 	return (
 		<div className="App">
-			<Butterflies />
 			{!isAuthPage && <Header toggleCart={toggleCart} cartItems={cartItems} />}
 			{location.pathname === "/" && <Hero />}
 			<Routes>

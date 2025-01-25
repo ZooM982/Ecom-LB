@@ -66,7 +66,7 @@ const ProductForm = ({ onSubmit, initialData = null }) => {
 			colors: product.colors.split(",").map((color) => color.trim()),
 		};
 
-		onSubmit(formattedProduct); // Appelle la fonction transmise par le parent
+		onSubmit(formattedProduct);
 	};
 
 	return (
@@ -118,6 +118,7 @@ const ProductForm = ({ onSubmit, initialData = null }) => {
 				<option value="Women">Women</option>
 				<option value="Kids">Kids</option>
 				<option value="Accessories">Accessories</option>
+				<option value="Sale">Sale</option>
 			</select>
 			<input
 				type="text"

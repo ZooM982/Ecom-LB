@@ -5,9 +5,14 @@ const ProductList = ({ products, handleEditProduct, handleDeleteProduct }) => (
 		<h3 className="text-xl font-bold mb-4">Produits Disponibles</h3>
 		<ul className="grid md:grid-cols-3 gap-5">
 			{products.map((product) => (
-				<li key={product._id} className="w-full my-2 bg-gray-100 items-center">
-					<h1 className="text-center font-bold italic font-serif m-2">{product.category}</h1>
-					<div className="grid md:grid-cols-1 grid-cols-2 gap-5 w-full items-center">
+				<li
+					key={product._id}
+					className="w-full my-2 bg-gray-100 rounded-lg p-4"
+				>
+					<h1 className="text-center font-bold italic font-serif m-2">
+						{product.category}
+					</h1>
+					<div className="grid md:grid-cols-1 md:grid-cols-2 gap-2 w-full items-center">
 						<img
 							src={product.image}
 							alt={product.name}
@@ -21,7 +26,7 @@ const ProductList = ({ products, handleEditProduct, handleDeleteProduct }) => (
 							</div>
 						</div>
 					</div>
-					<div className="grid grid-cols-2 gap-2 p-2 w-full">
+					<div className="grid grid-cols-2 gap-2 justify-between mt-4">
 						<button
 							onClick={() => handleEditProduct(product)}
 							className="bg-yellow-500 text-white p-2 rounded-md"

@@ -2,19 +2,21 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-
+import { FaWhatsapp } from "react-icons/fa";
+import { IoClose } from "react-icons/io5";
+import { RiDeleteBin6Line } from "react-icons/ri";
 const CartModal = ({ isOpen, onRequestClose, cartItems, clearCart }) => {
-	const navigate = useNavigate();
+	// const navigate = useNavigate();
 	const { auth } = useAuth();
 
-	const handleCheckout = () => {
-		if (!auth.token) {
-			alert("Veuillez vous connecter pour procéder au paiement.");
-			navigate("/login");
-		} else {
-			alert("Redirection vers la page de paiement...");
-		}
-	};
+	// const handleCheckout = () => {
+	// 	if (!auth.token) {
+	// 		alert("Veuillez vous connecter pour procéder au paiement.");
+	// 		navigate("/login");
+	// 	} else {
+	// 		alert("Redirection vers la page de paiement...");
+	// 	}
+	// };
 
 const handleWhatsApp = () => {
 	if (cartItems.length === 0) {
@@ -77,7 +79,8 @@ const handleWhatsApp = () => {
 											<p>Quantité: {item.quantity}</p>
 										</div>
 										<p>
-											{item.price} * {item.quantity} = {item.price * item.quantity} FCFA
+											{item.price} * {item.quantity} ={" "}
+											{item.price * item.quantity} FCFA
 										</p>
 									</li>
 								))}
@@ -85,16 +88,19 @@ const handleWhatsApp = () => {
 						)}
 					</ul>
 				)}
-				<div className="flex justify-between mt-4">
+				<div className="grid grid-cols-3 gap-5 mt-4">
 					<button
 						onClick={onRequestClose}
-						className="bg-gray-300 px-4 py-2 rounded"
+						className="bg-gray-300 grid grid-cols-2 gap-2 w-full rounded"
 					>
-						Fermer
+						<p>Fermer le panier </p>
+						<span>
+							<IoClose />
+						</span>
 					</button>
-					<button
+					{/* <button
 						onClick={handleCheckout}
-						className={`px-4 py-2 rounded text-white ${
+						className={`rounded text-white ${
 							cartItems.length === 0
 								? "bg-gray-400 cursor-not-allowed"
 								: "bg-blue-600 hover:bg-blue-700"
@@ -103,22 +109,24 @@ const handleWhatsApp = () => {
 						disabled={cartItems.length === 0}
 					>
 						Payer
-					</button>
+					</button> */}
 					<button
 						onClick={handleWhatsApp}
-						className={`text-white px-4 py-2 rounded ${
+						className={`text-whitegrid grid-cols-2 gap-2 w-full  rounded ${
 							cartItems.length === 0
 								? "bg-gray-400 cursor-not-allowed"
 								: "bg-green-600 "
 						}`}
 					>
-						Envoyer via WhatsApp
+						<p>Payer vers </p>
+						<span><FaWhatsapp /></span>
 					</button>
 					<button
 						onClick={clearCart}
-						className="bg-red-600 text-white px-4 py-2 rounded"
+						className="bg-red-600 grid grid-cols-2 gap-2 w-full text-white rounded"
 					>
-						Vider le panier
+						<p className="w-full">Vider le panier </p>
+						<span className="w-full"><RiDeleteBin6Line /></span>
 					</button>
 				</div>
 			</div>

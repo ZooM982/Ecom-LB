@@ -21,13 +21,13 @@ const AddToCartButton = ({ product, addToCart }) => {
 			toast.error("Veuillez sélectionner une taille et une couleur.");
 			return;
 		}
-		toast.success("Article ajouter au panier")
+		toast.success("Article ajouter au panier");
 
 		// Passer la taille, la couleur et la quantité dans le panier
 		addToCart({ ...product, quantity, selectedSize, selectedColor });
-		setQuantity(1); 
-		setSelectedSize(""); 
-		setSelectedColor(""); 
+		setQuantity(1);
+		setSelectedSize("");
+		setSelectedColor("");
 	};
 
 	return (

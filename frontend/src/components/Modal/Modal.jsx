@@ -15,7 +15,7 @@ function Modal({ isOpen, onClose, children }) {
 	if (!isOpen && !isClosing) return null;
 
 	return (
-		<div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-end md:items-center z-50">
+		<div className="fixed inset-0 bg-gray-900 bg-opacity-85 flex items-end md:items-center z-50">
 			<div
 				className={`bg-white rounded-t-[50px] md:rounded-lg shadow-lg p-6 w-full md:w-[75%] mx-auto ${
 					isClosing ? "animate-slide-down" : "animate-slide-up"
@@ -27,7 +27,7 @@ function Modal({ isOpen, onClose, children }) {
 				>
 					<AiOutlineClose />
 				</button>
-				<div className="mt-4">{children}</div>
+				<div className="mt-4 overflow-y-auto">{children}</div>
 			</div>
 		</div>
 	);

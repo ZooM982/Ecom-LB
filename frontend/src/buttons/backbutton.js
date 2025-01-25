@@ -9,7 +9,7 @@ function BackButton() {
 		<button
 			onClick={() => navigate(-1)}
 			style={{
-				transition: "transform 0.5s ease",
+				transition: "transform 0.6s ease",
 			}}
 			className="bg-blue-400 h-[25px] w-[25px] text-white p-[3px] top-2 md:-top-2 absolute mt-[90px] float-right rounded-full
 			ms-[20px] hover:bg-blue-700 transition-colors duration-200"

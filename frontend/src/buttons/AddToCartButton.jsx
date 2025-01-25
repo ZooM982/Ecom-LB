@@ -99,7 +99,7 @@ const AddToCartButton = ({ product, addToCart }) => {
 			{/* Bouton Ajouter au panier */}
 			<button
 				onClick={handleAddToCart}
-				className="bg-green-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 transition-all duration-300 ease-in-out flex items-center w-[50%]"
+				className="bg-green-500 text-white py-2 px-4 rounded-full hover:bg-[#001806] transition-all duration-300 ease-in-out flex items-center w-[50%]"
 			>
 				<MdShoppingCart size={24} />
 			</button>

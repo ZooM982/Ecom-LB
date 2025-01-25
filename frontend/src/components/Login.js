@@ -18,7 +18,9 @@ const Login = () => {
 			onLogin(token, user);
 
 			if (user.role === "admin") {
-				toast.success("Connexion réussie! Redirection vers le tableau de bord admin.");
+				toast.success(
+					"Connexion réussie! Redirection vers le tableau de bord admin."
+				);
 				navigate("/dashboard/products");
 			} else if (user.role === "user") {
 				toast.success("Connexion réussie! Redirection vers la page d'accueil.");
@@ -55,7 +57,7 @@ const Login = () => {
 							value={username}
 							onChange={(e) => setUsername(e.target.value)}
 							required
-							className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+							className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-[#001806]"
 						/>
 					</div>
 					<div className="mb-6">
@@ -68,19 +70,19 @@ const Login = () => {
 							value={password}
 							onChange={(e) => setPassword(e.target.value)}
 							required
-							className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+							className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-[#001806]"
 						/>
 					</div>
 					<button
 						type="submit"
-						className="w-full bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700 transition duration-200"
+						className="w-full bg-[#001806] text-white p-2 rounded-md hover:bg-[#00006] transition duration-200"
 					>
 						Se connecter
 					</button>
 				</form>
 				<p className="mt-4 text-sm text-center">
 					Pas de compte ?{" "}
-					<Link to="/register" className="text-blue-600 hover:underline">
+					<Link to="/register" className="text-[#001806] hover:underline">
 						Inscrivez-vous
 					</Link>
 				</p>

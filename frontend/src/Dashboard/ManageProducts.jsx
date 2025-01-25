@@ -19,7 +19,7 @@ const ManageProducts = () => {
 		const fetchProducts = async () => {
 			try {
 				const response = await axios.get(
-					"https://haurly-shop.onrender.com/api/products"
+					"https://ecom-lb.onrender.com/api/products"
 				);
 				setProducts(response.data);
 			} catch (error) {
@@ -54,7 +54,7 @@ const ManageProducts = () => {
 			if (editingProduct) {
 				// Mise à jour
 				response = await axios.put(
-					`https://haurly-shop.onrender.com/api/products/${editingProduct._id}`,
+					`https://ecom-lb.onrender.com/api/products/${editingProduct._id}`,
 					formData,
 					{ headers: { "Content-Type": "multipart/form-data" } }
 				);
@@ -67,7 +67,7 @@ const ManageProducts = () => {
 			} else {
 				// Création
 				response = await axios.post(
-					"https://haurly-shop.onrender.com/api/products",
+					"https://ecom-lb.onrender.com/api/products",
 					formData,
 					{ headers: { "Content-Type": "multipart/form-data" } }
 				);
@@ -98,7 +98,7 @@ const ManageProducts = () => {
 
 		try {
 			const response = await axios.delete(
-				`https://haurly-shop.onrender.com/api/products/${productId}`
+				`https://ecom-lb.onrender.com/api/products/${productId}`
 			);
 			if (response.status === 200) {
 				setProducts((prev) =>
@@ -118,7 +118,7 @@ const ManageProducts = () => {
 				<div className="grid">
 					<button
 						onClick={openModal}
-						className="p-2 md:w-[20%] text-[20px] bg-blue-400 float-right"
+						className="p-2 md:w-[20%] text-[20px] bg-[#caebd2] float-right"
 					>
 						Ajouter un produit
 					</button>
@@ -130,7 +130,11 @@ const ManageProducts = () => {
 				</div>
 			</div>
 			<Modal isOpen={isModalOpen} onClose={closeModal}>
-				<ProductForm initialData={editingProduct} onSubmit={handleSubmit} />
+				<ProductForm
+					initialData={editingProduct}
+					onSubmit={handleSubmit}
+					closeModal={closeModal}
+				/>
 			</Modal>
 		</section>
 	);

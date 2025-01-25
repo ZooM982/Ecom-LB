@@ -48,7 +48,7 @@ const Register = () => {
 							value={username}
 							onChange={(e) => setUsername(e.target.value)}
 							required
-							className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+							className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-[#001806]"
 						/>
 					</div>
 					<div className="mb-4">
@@ -61,7 +61,7 @@ const Register = () => {
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
 							required
-							className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+							className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-[#001806]"
 						/>
 					</div>
 					<div className="mb-6">
@@ -74,19 +74,19 @@ const Register = () => {
 							value={password}
 							onChange={(e) => setPassword(e.target.value)}
 							required
-							className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+							className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-[#001806]"
 						/>
 					</div>
 					<button
 						type="submit"
-						className="w-full bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700 transition duration-200"
+						className="w-full bg-[#001806] text-white p-2 rounded-md hover:bg-[#00006] transition duration-200"
 					>
 						S'inscrire
 					</button>
 				</form>
 				<p className="mt-4 text-sm text-center">
 					Déjà un compte ?{" "}
-					<Link to="/login" className="text-blue-600 hover:underline">
+					<Link to="/login" className="text-[#001806] hover:underline">
 						Connectez-vous
 					</Link>
 				</p>

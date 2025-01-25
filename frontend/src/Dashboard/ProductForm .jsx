@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const ProductForm = ({ onSubmit, initialData = null }) => {
+const ProductForm = ({ onSubmit, initialData = null, closeModal }) => {
 	const [product, setProduct] = useState({
 		name: "",
 		price: "",
@@ -78,6 +78,8 @@ const ProductForm = ({ onSubmit, initialData = null }) => {
 			image: null,
 			additionalImages: [],
 		});
+
+		closeModal();
 	};
 
 	return (
@@ -185,7 +187,7 @@ const ProductForm = ({ onSubmit, initialData = null }) => {
 				</div>
 				<button
 					type="submit"
-					className="bg-blue-500 w-[50%] mx-auto text-white p-2 rounded-lg"
+					className="bg-[#001806] w-[50%] mx-auto text-white p-2 rounded-lg"
 				>
 					{initialData ? "Update Product" : "Submit"}
 				</button>

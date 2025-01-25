@@ -10,7 +10,7 @@ dotenv.config();
 
 const app = express();
 const allowedOrigins = [
-	"https://haurly-shop.onrender.com",
+	"https://haurly-shop-1.onrender.com",
 	"http://localhost:3000",
 	"*",
 ];

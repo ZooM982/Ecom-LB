@@ -7,12 +7,11 @@ import { toast } from "react-toastify";
 const LoginButton = () => {
 	const navigate = useNavigate();
 	const { auth, onLogout } = useAuth();
-
 	const handleLogout = () => {
 		const toastId = toast(
 			<div className="grid grid-cols-3 gap-5">
 				<span className="col-span-3">
-					Êtes-vous sûr de vouloir vous déconnecter ?
+					Êtes-vous sûr de vouloir vous déconnecter?
 				</span>
 				<button
 					onClick={() => {

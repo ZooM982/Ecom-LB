@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./ManageUsers.css"; // Import des styles
+import "./ManageUsers.css";
+import { toast } from "react-toastify";
 
 const ManageUsers = () => {
 	const [users, setUsers] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [newUser, setNewUser] = useState({
-		username: "", // Remplacement de 'name' par 'username'
+		username: "", 
 		email: "",
 		password: "",
 		role: "user",
@@ -18,7 +19,7 @@ const ManageUsers = () => {
 				const response = await axios.get(
 					"https://haurly-shop.onrender.com/api/users"
 				);
-				console.log("Utilisateurs récupérés :", response.data); // Vérification de la réponse
+				console.log("Utilisateurs récupérés :", response.data); 
 				setUsers(response.data);
 			} catch (error) {
 				console.error(
@@ -39,12 +40,12 @@ const ManageUsers = () => {
 				"https://haurly-shop.onrender.com/api/users/register",
 				newUser
 			);
-			alert("Utilisateur ajouté !");
-			setUsers([...users, response.data.user]); // Ajout de la réponse au tableau d'utilisateurs
+			toast.success("Utilisateur ajouté !");
+			setUsers([...users, response.data.user]); 
 			setNewUser({ username: "", email: "", password: "", role: "user" });
 		} catch (error) {
 			console.error(error);
-			alert(
+			toast.error(
 				`Erreur lors de l'ajout de l'utilisateur : ${
 					error.response?.data?.message || "Erreur inconnue"
 				}`
@@ -53,16 +54,16 @@ const ManageUsers = () => {
 	};
 
 	const handleDeleteUser = async (userId) => {
-		console.log("ID utilisateur à supprimer :", userId); // Vérification de l'ID
+		console.log("ID utilisateur à supprimer :", userId);
 		try {
 			await axios.delete(
 				`https://haurly-shop.onrender.com/api/users/${userId}`
 			);
 			setUsers(users.filter((user) => user._id !== userId));
-			alert("Utilisateur supprimé !");
+			toast.success("Utilisateur supprimé !");
 		} catch (error) {
 			console.error(error);
-			alert("Erreur lors de la suppression.");
+			toast.error("Erreur lors de la suppression.");
 		}
 	};
 
@@ -77,7 +78,7 @@ const ManageUsers = () => {
 						<input
 							type="text"
 							placeholder="Nom de l'utilisateur"
-							value={newUser.username} // Utilisation de 'username'
+							value={newUser.username} 
 							onChange={(e) =>
 								setNewUser({ ...newUser, username: e.target.value })
 							}

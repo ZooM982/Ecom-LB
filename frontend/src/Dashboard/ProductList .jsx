@@ -60,7 +60,7 @@ const ProductList = ({ products, handleEditProduct, handleDeleteProduct }) => {
 													<img
 														src={product.image}
 														alt={product.name}
-														className="w-[60%] h-[80px] object-cover md:w-[80%] md:h-[120px] mx-auto rounded-lg"
+														className="w-[100%] h-[80px] object-cover md:h-[120px] mx-auto rounded-lg"
 													/>
 													<div className="px-3 h-[100px]">
 														<h4 className="text-lg font-bold">

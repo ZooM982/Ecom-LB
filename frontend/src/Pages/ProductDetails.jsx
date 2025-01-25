@@ -62,32 +62,34 @@ const ProductDetails = ({ addToCart }) => {
 				<h1 className="font-bold text-4xl md:text-5xl text-gray-800">
 					{product.name}
 				</h1>
-				<div className="my-6">
-					<img
-						className="w-[300px] h-auto mx-auto rounded-lg shadow-md hover:scale-105 transition-transform duration-300"
-						src={product.image}
-						alt={`Image de ${product.name}`}
-					/>
-				</div>
-				<div className="text-xl text-left mx-4 md:mx-16 mt-6 space-y-4">
-					<p className="text-gray-700">
-						<strong>Description:</strong> {product.description}
-					</p>
-					<p className="text-gray-700">
-						<strong>Prix:</strong>{" "}
-						<span className="text-green-600">{product.price} FCFA</span>
-					</p>
-					<p className="text-gray-700">
-						<strong>Taille(s) disponible(s):</strong> {sizes}
-					</p>
-					<p className="text-gray-700">
-						<strong>Couleur(s) disponible(s):</strong> {colors}
-					</p>
-				</div>
+				<div className="md:grid md:grid-cols-3 gap-2">
+					<div className="my-6">
+						<img
+							className="w-[300px] h-auto mx-auto rounded-lg shadow-md hover:scale-105 transition-transform duration-300"
+							src={product.image}
+							alt={`Image de ${product.name}`}
+						/>
+					</div>
+					<div className="text-xl text-left mx-4 md:mx-16 mt-6 space-y-4">
+						<p className="text-gray-700">
+							<strong>Description:</strong> {product.description}
+						</p>
+						<p className="text-gray-700">
+							<strong>Prix:</strong>{" "}
+							<span className="text-green-600">{product.price} FCFA</span>
+						</p>
+						<p className="text-gray-700">
+							<strong>Taille(s) disponible(s):</strong> {sizes}
+						</p>
+						<p className="text-gray-700">
+							<strong>Couleur(s) disponible(s):</strong> {colors}
+						</p>
+					</div>
 
-				{/* Bouton "Ajouter au panier" avec animation */}
-				<div className="w-[30%] mx-auto border m-3 p-2 ">
-					<AddToCartButton product={product} addToCart={addToCart} />
+					{/* Bouton "Ajouter au panier" avec animation */}
+					<div className="w-[100%] mx-auto  m-3 p-2 ">
+						<AddToCartButton product={product} addToCart={addToCart} />
+					</div>
 				</div>
 				<h3 className="mt-8 text-2xl font-semibold text-gray-800">
 					Images supplémentaires

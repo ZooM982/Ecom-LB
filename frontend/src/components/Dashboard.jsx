@@ -9,6 +9,7 @@ import {
 	FaChevronLeft,
 	FaChevronRight,
 } from "react-icons/fa";
+import BackButton from "../buttons/Backbutton";
 
 const Dashboard = () => {
 	const { auth } = useAuth();
@@ -30,6 +31,7 @@ const Dashboard = () => {
 	return (
 		<section className="min-h-[81.3vh] md:min-h-[73.7vh] flex flex-col md:flex-row">
 			{/* Sidebar */}
+			<BackButton/>
 			<aside
 				className={`dashboard-sidebar transition-all duration-300 ${
 					isSidebarCollapsed ? "w-full md:w-16" : "w-full md:w-64"

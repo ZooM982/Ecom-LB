@@ -12,7 +12,7 @@ const Sale = () => {
 		const fetchProducts = async () => {
 			try {
 				const response = await axios.get(
-					"https://ecom-lb.onrender.com/api/products?category=Accessories"
+					"https://harlyshop.onrender.com/api/products?category=Accessories"
 				);
 				setProducts(response.data);
 			} catch (error) {

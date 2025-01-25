@@ -14,7 +14,7 @@ function Products({ addToCart }) {
 		const fetchProducts = async () => {
 			try {
 				const response = await axios.get(
-					`https://ecom-lb.onrender.com/api/products`,
+					`https://harlyshop.onrender.com/api/products`,
 					{
 						params: {
 							category: category || "",

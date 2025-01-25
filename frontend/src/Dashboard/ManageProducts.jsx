@@ -19,7 +19,7 @@ const ManageProducts = () => {
 		const fetchProducts = async () => {
 			try {
 				const response = await axios.get(
-					"https://ecom-lb.onrender.com/api/products"
+					"https://harlyshop.onrender.com/api/products"
 				);
 				setProducts(response.data);
 			} catch (error) {
@@ -29,7 +29,7 @@ const ManageProducts = () => {
 			}
 		};
 		fetchProducts();
-	}, [loading]); 
+	}, [loading]);
 
 	if (loading) return <div>Chargement...</div>;
 
@@ -54,7 +54,7 @@ const ManageProducts = () => {
 			if (editingProduct) {
 				// Mise à jour
 				response = await axios.put(
-					`https://ecom-lb.onrender.com/api/products/${editingProduct._id}`,
+					`https://harlyshop.onrender.com/api/products/${editingProduct._id}`,
 					formData,
 					{ headers: { "Content-Type": "multipart/form-data" } }
 				);
@@ -67,7 +67,7 @@ const ManageProducts = () => {
 			} else {
 				// Création
 				response = await axios.post(
-					"https://ecom-lb.onrender.com/api/products",
+					"https://harlyshop.onrender.com/api/products",
 					formData,
 					{ headers: { "Content-Type": "multipart/form-data" } }
 				);
@@ -98,7 +98,7 @@ const ManageProducts = () => {
 
 		try {
 			const response = await axios.delete(
-				`https://ecom-lb.onrender.com/api/products/${productId}`
+				`https://harlyshop.onrender.com/api/products/${productId}`
 			);
 			if (response.status === 200) {
 				setProducts((prev) =>

@@ -16,7 +16,7 @@ const ManageUsers = () => {
 		const fetchUsers = async () => {
 			try {
 				const response = await axios.get(
-					"https://ecom-lb.onrender.com/api/users"
+					"https://harlyshop.onrender.com/api/users"
 				);
 				console.log("Utilisateurs récupérés :", response.data); // Vérification de la réponse
 				setUsers(response.data);
@@ -26,7 +26,7 @@ const ManageUsers = () => {
 					error
 				);
 			} finally {
-				setLoading(false)
+				setLoading(false);
 			}
 		};
 		fetchUsers();
@@ -36,7 +36,7 @@ const ManageUsers = () => {
 		e.preventDefault();
 		try {
 			const response = await axios.post(
-				"https://ecom-lb.onrender.com/api/users/register",
+				"https://harlyshop.onrender.com/api/users/register",
 				newUser
 			);
 			alert("Utilisateur ajouté !");
@@ -55,7 +55,7 @@ const ManageUsers = () => {
 	const handleDeleteUser = async (userId) => {
 		console.log("ID utilisateur à supprimer :", userId); // Vérification de l'ID
 		try {
-			await axios.delete(`https://ecom-lb.onrender.com/api/users/${userId}`);
+			await axios.delete(`https://harlyshop.onrender.com/api/users/${userId}`);
 			setUsers(users.filter((user) => user._id !== userId));
 			alert("Utilisateur supprimé !");
 		} catch (error) {

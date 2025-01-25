@@ -86,8 +86,9 @@ const ProductDetails = ({ addToCart }) => {
 				</div>
 
 				{/* Bouton "Ajouter au panier" avec animation */}
-				<AddToCartButton product={product} addToCart={addToCart} />
-
+				<div className="w-[30%] mx-auto border m-3 p-2 ">
+					<AddToCartButton product={product} addToCart={addToCart} />
+				</div>
 				<h3 className="mt-8 text-2xl font-semibold text-gray-800">
 					Images supplémentaires
 				</h3>

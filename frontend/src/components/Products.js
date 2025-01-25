@@ -32,7 +32,7 @@ function Products({ addToCart }) {
 	}, [category]);
 
 	const totalPages = Math.ceil(products.length / itemsPerPage);
-	const paginatedProperties = products.slice(
+	const paginatedProducts = products.slice(
 		(currentPage - 1) * itemsPerPage,
 		currentPage * itemsPerPage
 	);
@@ -52,27 +52,40 @@ function Products({ addToCart }) {
 					? `${category.charAt(0).toUpperCase() + category.slice(1)} Collection`
 					: "Featured Collections"}
 			</h2>
-			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-				{paginatedProperties.map((product) => (
-					<div key={product._id} className="bg-white rounded-lg shadow-md p-4">
-						<Link to={`/products/${product._id}`}>
-							<img
-								src={product.image}
-								alt={product.name}
-								className="w-full h-48 object-cover rounded-md mb-4"
-							/>
-							<h3 className="text-lg font-semibold">{product.name}</h3>
-						</Link>
-						<p className="text-gray-600 mb-2">{product.price} FCFA</p>
-						<AddToCartButton product={product} addToCart={addToCart} />
+
+			{products.length === 0 ? (
+				<p className="text-red-500 text-center">
+					No products available ! Coming soon.
+				</p>
+			) : (
+				<>
+					<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+						{paginatedProducts.map((product) => (
+							<div
+								key={product._id}
+								className="bg-white rounded-lg shadow-md p-4"
+							>
+								<Link to={`/products/${product._id}`}>
+									<img
+										src={product.image}
+										alt={product.name}
+										className="w-full h-48 object-cover rounded-md mb-4"
+									/>
+									<h3 className="text-lg font-semibold">{product.name}</h3>
+								</Link>
+								<p className="text-gray-600 mb-2">{product.price} FCFA</p>
+								<AddToCartButton product={product} addToCart={addToCart} />
+							</div>
+						))}
 					</div>
-				))}
-			</div>
-			<Pagination
-				currentPage={currentPage}
-				totalPages={totalPages}
-				onPageChange={handlePageChange}
-			/>
+
+					<Pagination
+						currentPage={currentPage}
+						totalPages={totalPages}
+						onPageChange={handlePageChange}
+					/>
+				</>
+			)}
 		</section>
 	);
 }

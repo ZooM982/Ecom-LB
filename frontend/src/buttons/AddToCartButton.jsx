@@ -31,9 +31,9 @@ const AddToCartButton = ({ product, addToCart }) => {
 	};
 
 	return (
-		<div className="grid grid-cols-2 gap-5 items-center space-y-4 md:space-y-0">
+		<div className="grid grid-cols-2 gap-5 items-center">
 			{/* Sélecteur de taille */}
-			<div className="grid items-center">
+			<div className="grid items-center h-[50px] w-[100%] my-3 ">
 				<label htmlFor="size" className="text-lg">
 					Taille:
 				</label>
@@ -41,7 +41,7 @@ const AddToCartButton = ({ product, addToCart }) => {
 					id="size"
 					value={selectedSize}
 					onChange={(e) => setSelectedSize(e.target.value)}
-					className="p-2 border border-gray-300 w-[95%] rounded-md"
+					className="p-2 border border-gray-300 w-[100%] rounded-md"
 				>
 					<option value="">Sélectionner</option>
 					{product.sizes?.map((size, index) => (
@@ -53,7 +53,7 @@ const AddToCartButton = ({ product, addToCart }) => {
 			</div>
 
 			{/* Sélecteur de couleur */}
-			<div className="grid items-center">
+			<div className="grid items-center h-[50px] w-[100%] my-3 ">
 				<label htmlFor="color" className="text-lg">
 					Couleur:
 				</label>
@@ -73,7 +73,7 @@ const AddToCartButton = ({ product, addToCart }) => {
 			</div>
 
 			{/* Quantité */}
-			<div className="flex items-center space-x-2 w-[100%]">
+			<div className="flex items-center space-x-2 w-[100%] my-3">
 				<button
 					onClick={handleDecrease}
 					className="bg-gray-300 text-black py-1 px-2 rounded-l-md"
@@ -99,9 +99,9 @@ const AddToCartButton = ({ product, addToCart }) => {
 			{/* Bouton Ajouter au panier */}
 			<button
 				onClick={handleAddToCart}
-				className="bg-green-500 text-white py-2 px-4 rounded-full hover:bg-[#001806] transition-all duration-300 ease-in-out flex items-center w-[50%]"
+				className="bg-green-500 text-white p-3 mx-auto rounded-full hover:bg-[#001806] transition-all duration-300 ease-in-out items-center"
 			>
-				<MdShoppingCart size={24} />
+				<MdShoppingCart size={30} />
 			</button>
 		</div>
 	);

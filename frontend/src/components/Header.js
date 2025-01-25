@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import LoginButton from "../buttons/LoginButton";
+import LoginButton from "../buttons/loginButton";
 import CartIcon from "../components/CartIcon";
 import { useAuth } from "../context/AuthContext";
 import Modal from "./Modal/Modal";

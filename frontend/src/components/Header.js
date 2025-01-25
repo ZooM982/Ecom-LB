@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import LoginButton from "../buttons/LoginButton";
 import CartIcon from "../components/CartIcon";
 import { useAuth } from "../context/AuthContext";
 import Modal from "./Modal/Modal";
 import { TiThMenu } from "react-icons/ti";
 import Logo from "../Image/Icon.png";
+import LoginButton from "../buttons/LogButton";
 
 const Header = ({ toggleCart, cartItems }) => {
 	const { isAuthenticated, onLogout } = useAuth();

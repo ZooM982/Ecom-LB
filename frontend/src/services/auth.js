@@ -5,7 +5,7 @@ export const registerAdmin = async (name, username, email, password) => {
 	const adminData = { name, username, email, password };
 	console.log("Données à envoyer :", adminData);
 	const response = await axios.post(
-		"https://harlyshop.onrender.com/api/users/create-admin",
+		"https://haurly-shop.onrender.com/api/users/create-admin",
 		adminData
 	);
 	return response.data;
@@ -16,7 +16,7 @@ export const registerUser = async (username, email, password) => {
 	const userData = { username, email, password };
 	console.log("Données à envoyer :", userData);
 	const response = await axios.post(
-		"https://harlyshop.onrender.com/api/users/register",
+		"https://haurly-shop.onrender.com/api/users/register",
 		userData
 	);
 	return response.data;
@@ -25,7 +25,7 @@ export const registerUser = async (username, email, password) => {
 // Service pour connecter un utilisateur
 export const loginUser = async (username, password) => {
 	const response = await axios.post(
-		"https://harlyshop.onrender.com/api/users/login",
+		"https://haurly-shop.onrender.com/api/users/login",
 		{
 			username,
 			password,

@@ -32,7 +32,7 @@ router.post(
 
 			// Gérer l'image principale
 			const image = req.files?.image
-				? `https://harlyshop.onrender.com/uploads/${req.files.image[0].filename}`
+				? `https://haurly-shop.onrender.com/uploads/${req.files.image[0].filename}`
 				: null;
 
 			if (!image) {
@@ -44,7 +44,8 @@ router.post(
 			// Gérer les images supplémentaires
 			const additionalImages = req.files?.additionalImages
 				? req.files.additionalImages.map(
-						(file) => `https://harlyshop.onrender.com/uploads/${file.filename}`
+						(file) =>
+							`https://haurly-shop.onrender.com/uploads/${file.filename}`
 				  )
 				: [];
 
@@ -146,13 +147,13 @@ router.put(
 
 			// Gérer l'image principale
 			if (req.files?.image) {
-				product.image = `https://harlyshop.onrender.com/uploads/${req.files.image[0].filename}`;
+				product.image = `https://haurly-shop.onrender.com/uploads/${req.files.image[0].filename}`;
 			}
 
 			// Ajouter les nouvelles images supplémentaires
 			if (req.files?.additionalImages) {
 				const additionalImages = req.files.additionalImages.map(
-					(file) => `https://harlyshop.onrender.com/uploads/${file.filename}`
+					(file) => `https://haurly-shop.onrender.com/uploads/${file.filename}`
 				);
 				product.additionalImages.push(...additionalImages);
 			}

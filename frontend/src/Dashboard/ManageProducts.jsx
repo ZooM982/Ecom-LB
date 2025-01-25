@@ -19,7 +19,7 @@ const ManageProducts = () => {
 		const fetchProducts = async () => {
 			try {
 				const response = await axios.get(
-					"https://harlyshop.onrender.com/api/products"
+					"https://haurly-shop.onrender.com/api/products"
 				);
 				setProducts(response.data);
 			} catch (error) {
@@ -54,7 +54,7 @@ const ManageProducts = () => {
 			if (editingProduct) {
 				// Mise à jour
 				response = await axios.put(
-					`https://harlyshop.onrender.com/api/products/${editingProduct._id}`,
+					`https://haurly-shop.onrender.com/api/products/${editingProduct._id}`,
 					formData,
 					{ headers: { "Content-Type": "multipart/form-data" } }
 				);
@@ -67,7 +67,7 @@ const ManageProducts = () => {
 			} else {
 				// Création
 				response = await axios.post(
-					"https://harlyshop.onrender.com/api/products",
+					"https://haurly-shop.onrender.com/api/products",
 					formData,
 					{ headers: { "Content-Type": "multipart/form-data" } }
 				);
@@ -98,7 +98,7 @@ const ManageProducts = () => {
 
 		try {
 			const response = await axios.delete(
-				`https://harlyshop.onrender.com/api/products/${productId}`
+				`https://haurly-shop.onrender.com/api/products/${productId}`
 			);
 			if (response.status === 200) {
 				setProducts((prev) =>

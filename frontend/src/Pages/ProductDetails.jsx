@@ -20,7 +20,7 @@ const ProductDetails = ({ addToCart }) => {
 			}
 			try {
 				const response = await axios.get(
-					`https://harlyshop.onrender.com/api/products/${id}`
+					`https://haurly-shop.onrender.com/api/products/${id}`
 				);
 				setProduct(response.data);
 			} catch (error) {

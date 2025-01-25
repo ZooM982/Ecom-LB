@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { registerAdmin } from "../services/auth"; // Remplacer par la fonction pour créer un admin
+import { registerAdmin } from "../services/auth";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 
@@ -17,7 +17,6 @@ const RegisterAdmin = () => {
 		e.preventDefault();
 		console.log("Données à envoyer:", {name, username, email, password });
 		try {
-			// Utiliser la fonction pour enregistrer un admin
 			const response = await registerAdmin(name, username, email, password);
 
 			if (response.user) {

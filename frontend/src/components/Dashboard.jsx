@@ -1,37 +1,102 @@
-import React from "react";
-import { Link, Route, Routes, Navigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, Route, Routes, Navigate, useLocation } from "react-router-dom";
 import ManageProducts from "../Dashboard/ManageProducts";
 import ManageUsers from "../Dashboard/ManageUsers";
 import { useAuth } from "../context/AuthContext";
+import {
+	FaUser,
+	FaOpencart,
+	FaChevronLeft,
+	FaChevronRight,
+} from "react-icons/fa";
 
 const Dashboard = () => {
-	const { auth } = useAuth(); 
+	const { auth } = useAuth();
+	const location = useLocation();
+	const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(true); // Sidebar state
+
+	// Apply active class based on the current route
+	const getLinkClass = (path) => {
+		return location.pathname.includes(path)
+			? "bg-gray-500 border-b-4 border-gray-700 text-white"
+			: "hover:underline text-black";
+	};
+
+	// Toggle sidebar collapse state
+	const toggleSidebar = () => {
+		setIsSidebarCollapsed((prev) => !prev);
+	};
 
 	return (
-		<div className="dashboard-container">
-			<aside className="dashboard-sidebar">
-				<ul className="flex justify-between w-[50%] mx-auto">
-					<li className="h-[50px] w-[40%] py-2 text-center">
-						<Link to="/dashboard/products">Gérer les produits</Link>
+		<section className="min-h-[81.3vh] md:min-h-[73.7vh] flex flex-col md:flex-row">
+			{/* Sidebar */}
+			<aside
+				className={`dashboard-sidebar transition-all duration-300 ${
+					isSidebarCollapsed ? "w-full md:w-16" : "w-full md:w-64"
+				} bg-gray-200 flex flex-col md:flex-col`}
+			>
+				<div className="flex justify-between items-center p-4 md:justify-start">
+					<button
+						onClick={toggleSidebar}
+						className="text-gray-600 hover:text-gray-900"
+					>
+						{isSidebarCollapsed ? <FaChevronRight /> : <FaChevronLeft />}
+					</button>
+				</div>
+				<ul className="flex flex-col md:flex-col gap-4 p-2">
+					<li
+						className={`flex items-center gap-2 ${
+							isSidebarCollapsed ? "justify-center" : "justify-start"
+						} ${getLinkClass("/dashboard/products")}`}
+					>
+						<Link
+							className={`flex items-center gap-2 ${
+								isSidebarCollapsed ? "text-lg" : "text-[20px] "
+							} transition-all duration-300 p-2`}
+							to="/dashboard/products"
+						>
+							<FaOpencart className="text-2xl" />
+							{!isSidebarCollapsed && (
+								<span className="whitespace-nowrap">Gérer les produits</span>
+							)}
+						</Link>
 					</li>
-					<li className="h-[50px] w-[40%] py-2 text-center">
-						<Link to="/dashboard/users">Gérer les utilisateurs</Link>
+					<li
+						className={`flex items-center gap-2 ${
+							isSidebarCollapsed ? "justify-center" : "justify-start"
+						} ${getLinkClass("/dashboard/users")}`}
+					>
+						<Link
+							className={`flex items-center gap-2 ${
+								isSidebarCollapsed ? "text-lg" : "text-[20px] "
+							} transition-all duration-300 p-2`}
+							to="/dashboard/users"
+						>
+							<FaUser className="text-2xl" />
+							{!isSidebarCollapsed && (
+								<span className="whitespace-nowrap">
+									Gérer les utilisateurs
+								</span>
+							)}
+						</Link>
 					</li>
 				</ul>
 			</aside>
-			<main className="dashboard-content">
+
+			{/* Main Content */}
+			<main className="dashboard-content flex-1">
 				<Routes>
-					{auth.token ? ( 
+					{auth.token ? (
 						<>
 							<Route path="products" element={<ManageProducts />} />
 							<Route path="users" element={<ManageUsers />} />
 						</>
 					) : (
-						<Navigate to="/login" /> 
+						<Navigate to="/login" />
 					)}
 				</Routes>
 			</main>
-		</div>
+		</section>
 	);
 };
 

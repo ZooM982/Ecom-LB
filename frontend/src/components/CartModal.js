@@ -1,56 +1,36 @@
-// src/components/CartModal.js
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
 import { FaWhatsapp } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { toast } from "react-toastify";
+
 const CartModal = ({ isOpen, onRequestClose, cartItems, clearCart }) => {
-	// const navigate = useNavigate();
-	const { auth } = useAuth();
+	const handleWhatsApp = () => {
+		if (cartItems.length === 0) {
+			toast.error("Votre panier est vide, rien à envoyer.");
+			return;
+		}
 
-	// const handleCheckout = () => {
-	// 	if (!auth.token) {
-	// 		alert("Veuillez vous connecter pour procéder au paiement.");
-	// 		navigate("/login");
-	// 	} else {
-	// 		alert("Redirection vers la page de paiement...");
-	// 	}
-	// };
+		const message = cartItems
+			.map(
+				(item) =>
+					`🛒 *${item.name}* (x${item.quantity})\n💰 Prix: *${
+						item.price * item.quantity
+					} FCFA*\n🖼️ [Voir l'image](${item.image})\nTaille: *${
+						item.selectedSize
+					}*\nCouleur: *${item.selectedColor}*\n`
+			)
+			.join("\n");
 
-const handleWhatsApp = () => {
-	if (cartItems.length === 0) {
-		alert("Votre panier est vide, rien à envoyer.");
-		return;
-	}
+		const headerMessage = "*Voici mon panier :*\n\n";
+		const phoneNumber = "+221785975058";
+		const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+			headerMessage + message
+		)}`;
 
-	// Formater le contenu du panier
-	const message = cartItems
-		.map(
-			(item) =>
-				`🛒 *${item.name}* (x${item.quantity})\n💰 Prix: *${
-					item.price * item.quantity
-				} FCFA*\n🖼️ [Voir l'image](${item.image})\n`
-		)
-		.join("\n");
-
-	// Ajouter un message d'en-tête
-	const headerMessage = "*Voici mon panier :*\n\n";
-
-	// Remplace le numéro par celui que tu veux
-	const phoneNumber = "+221785975058";
-	const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
-		headerMessage + message
-	)}`;
-
-	// Ouvrir WhatsApp
-	window.open(whatsappUrl, "_blank");
-
-	// Effacer le contenu du panier
-	clearCart();
-};
-
-
+		window.open(whatsappUrl, "_blank");
+		clearCart();
+	};
 
 	return isOpen ? (
 		<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-85 z-50">
@@ -60,73 +40,61 @@ const handleWhatsApp = () => {
 					<p>Votre panier est vide.</p>
 				) : (
 					<ul className="divide-y">
-						{cartItems.length === 0 ? (
-							<p>Votre panier est vide.</p>
-						) : (
-							<ul className="divide-y">
-								{cartItems.map((item, index) => (
-									<li
-										key={index}
-										className="flex justify-between items-center py-2"
-									>
-										<img
-											src={item.image}
-											alt={item.name}
-											className="w-12 h-12 rounded"
-										/>
-										<div>
-											<p>{item.name}</p>
-											<p>Quantité: {item.quantity}</p>
-										</div>
-										<p>
-											{item.price} * {item.quantity} ={" "}
-											{item.price * item.quantity} FCFA
-										</p>
-									</li>
-								))}
-							</ul>
-						)}
+						{cartItems.map((item, index) => (
+							<li
+								key={item.productKey}
+								className="flex justify-between items-center py-2"
+							>
+								<img
+									src={item.image}
+									alt={item.name}
+									className="w-12 h-12 rounded"
+								/>
+								<div>
+									<p>{item.name}</p>
+									<p>Quantité: {item.quantity}</p>
+									<p>Taille: {item.selectedSize}</p>
+									<p>Couleur: {item.selectedColor}</p>
+								</div>
+								<p>
+									{item.price} * {item.quantity} = {item.price * item.quantity}{" "}
+									FCFA
+								</p>
+							</li>
+						))}
 					</ul>
 				)}
-				<div className="grid grid-cols-3 gap-5 mt-4">
+				<div className="flex justify-between content-center items-center text-center md:grid md:grid-cols-3 md:gap-5 mt-4">
 					<button
 						onClick={onRequestClose}
-						className="bg-gray-300 grid grid-cols-2 gap-2 w-full rounded"
+						className="bg-gray-700 text-white  text-center h-[40px] flex justify-between ps-3 items-center rounded"
 					>
-						<p>Fermer le panier </p>
-						<span>
+						<p className="hidden md:inline-block text-[20px] ">Fermer le panier </p>
+						<span className=" text-red-500 text-[40px] mx-auto ">
 							<IoClose />
 						</span>
 					</button>
-					{/* <button
-						onClick={handleCheckout}
-						className={`rounded text-white ${
-							cartItems.length === 0
-								? "bg-gray-400 cursor-not-allowed"
-								: "bg-blue-600 hover:bg-blue-700"
-						}`}
-						aria-label="Procéder au paiement"
-						disabled={cartItems.length === 0}
-					>
-						Payer
-					</button> */}
 					<button
 						onClick={handleWhatsApp}
-						className={`text-whitegrid grid-cols-2 gap-2 w-full  rounded ${
+						className={`text-white  text-center h-[40px] flex justify-between ps-3 items-center rounded ${
 							cartItems.length === 0
 								? "bg-gray-400 cursor-not-allowed"
 								: "bg-green-600 "
 						}`}
 					>
-						<p>Payer vers </p>
-						<span><FaWhatsapp /></span>
+						<p className="hidden md:inline-block text-[20px] ">Payer par </p>
+						<span className=" text-green-600 text-[40px] mx-auto ">
+							<FaWhatsapp />
+						</span>
 					</button>
 					<button
 						onClick={clearCart}
-						className="bg-red-600 grid grid-cols-2 gap-2 w-full text-white rounded"
+						className=" bg-red-600 text-center h-[40px] flex justify-between ps-3 items-center text-white rounded"
 					>
-						<p className="w-full">Vider le panier </p>
-						<span className="w-full"><RiDeleteBin6Line /></span>
+						<p className="hidden md:inline-block text-[20px] ">Vider le panier </p>
+						<span className=" text-[40px] mx-auto ">
+							<RiDeleteBin6Line />
+						</span>
 					</button>
 				</div>
 			</div>

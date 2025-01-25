@@ -1,41 +1,110 @@
-// src/components/Header.js
-import React from 'react';
-import { Link } from 'react-router-dom';
-import LoginButton from '../buttons/loginButton';
-import CartIcon from '../components/CartIcon'; 
-import { useAuth } from '../context/AuthContext';
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom"; // Import useLocation
+import LoginButton from "../buttons/LoginButton";
+import CartIcon from "../components/CartIcon";
+import { useAuth } from "../context/AuthContext";
+import Modal from "./Modal/Modal";
+import { TiThMenu } from "react-icons/ti";
 
 const Header = ({ toggleCart, cartItems }) => {
-  const { isAuthenticated, logout } = useAuth(); 
+	const { isAuthenticated, onLogout } = useAuth();
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const location = useLocation(); 
 
-  return (
-    <header className="bg-gray-800 text-white p-4">
-      <nav className="container mx-auto md:flex justify-between items-center text-center">
-        <div className="text-lg font-bold">
-          <Link to="/">Logo</Link>
-        </div>
-        <div>
-          <Link to="/" className="mx-[5px]">Home</Link>
-          <Link to="/men" className="mx-[5px]">Men</Link>
-          <Link to="/women" className="mx-[5px]">Women</Link>
-          <Link to="/kids" className="mx-[5px]">Kids</Link>
-          <Link to="/accessories" className="mx-[5px]">Accessories</Link>
-          <Link to="/sale" className="mx-[5px]">Sale</Link>
-        </div>
-        <div className='flex justify-between md:w-[80px] text-[25px] text-white me-[10px]'>
-          <button onClick={toggleCart} aria-label="Ouvrir le panier">
-            <span>
-              <CartIcon cartItems={cartItems} /> 
-            </span>
-          </button>
-          <LoginButton 
-            isAuthenticated={isAuthenticated} 
-            onLogout={logout}
-          />
-        </div>
-      </nav>
-    </header>
-  );
+	const navigationLinks = [
+		{ path: "/", label: "Home" },
+		{ path: "/men", label: "Men" },
+		{ path: "/women", label: "Women" },
+		{ path: "/kids", label: "Kids" },
+		{ path: "/accessories", label: "Accessories" },
+		{ path: "/sale", label: "Sale" },
+	];
+
+	const openModal = () => setIsModalOpen(true);
+	const closeModal = () => setIsModalOpen(false);
+
+	// Classe conditionnelle pour les liens actifs
+	const getLinkClasses = (path) =>
+		location.pathname === path
+			? "bg-gray-700 border-b-4 border-white text-white"
+			: "hover:underline";
+
+	return (
+		<header className="bg-gray-800 text-white p-4">
+			<nav className="container mx-auto flex justify-between items-center text-center">
+				<div className="text-lg font-bold">
+					<Link to="/">Logo</Link>
+				</div>
+
+				{/* Navigation pour les grands écrans */}
+				<div className="hidden md:flex space-x-5">
+					{navigationLinks.map((link) => (
+						<Link
+							to={link.path}
+							key={link.label}
+							className={`px-3 py-2 rounded ${getLinkClasses(link.path)}`}
+						>
+							{link.label}
+						</Link>
+					))}
+					{isAuthenticated && (
+						<Link
+							to="/dashboard/products"
+							className={`px-3 py-2 rounded ${getLinkClasses(
+								"/dashboard/products"
+							)}`}
+						>
+							Dashboard
+						</Link>
+					)}
+				</div>
+
+				{/* Bouton du menu pour les petits écrans */}
+				<button
+					onClick={openModal}
+					className="p-2 text-[40px] md:hidden"
+					aria-label="Ouvrir le menu de navigation"
+				>
+					<TiThMenu />
+				</button>
+
+				{/* Boutons de droite */}
+				<div className="flex items-center space-x-4 text-[25px]">
+					<button onClick={toggleCart} aria-label="Ouvrir le panier">
+						<CartIcon cartItems={cartItems} />
+					</button>
+					<LoginButton isAuthenticated={isAuthenticated} onLogout={onLogout} />
+				</div>
+			</nav>
+
+			{/* Modale pour les petits écrans */}
+			<Modal isOpen={isModalOpen} onClose={closeModal}>
+				<div className="flex flex-col space-y-4 text-gray-700 ">
+					{navigationLinks.map((link) => (
+						<Link
+							to={link.path}
+							key={link.label}
+							className={`px-3 py-2 rounded ${getLinkClasses(link.path)}`}
+							onClick={closeModal}
+						>
+							{link.label}
+						</Link>
+					))}
+					{isAuthenticated && (
+						<Link
+							to="/dashboard/products"
+							className={`px-3 py-2 rounded ${getLinkClasses(
+								"/dashboard/products"
+							)}`}
+							onClick={closeModal}
+						>
+							Dashboard
+						</Link>
+					)}
+				</div>
+			</Modal>
+		</header>
+	);
 };
 
 export default Header;

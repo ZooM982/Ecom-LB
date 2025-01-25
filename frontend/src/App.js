@@ -5,7 +5,6 @@ import {
 	Route,
 	Routes,
 	useLocation,
-	Navigate,
 } from "react-router-dom";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
@@ -24,18 +23,19 @@ import ProductDetails from "./Pages/ProductDetails";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import RequireAdminAuth from "./components/RequireAdminAuth";
 import RegisterAdmin from "./components/RegisterAdmin";
+import BackToTopButton from "./buttons/BackToTop";
+import ToastifyContainer from "./components/ToastifyContainer";
 
 function App() {
 	const [cartItems, setCartItems] = useState(() => {
 		const savedItems = localStorage.getItem("cartItems");
 		return savedItems ? JSON.parse(savedItems) : [];
-  });
-  
-  useEffect(() => {
+	});
+
+	useEffect(() => {
 		const storedCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
 		setCartItems(storedCartItems);
 	}, []);
-
 
 	const [isCartOpen, setCartOpen] = useState(false);
 
@@ -64,7 +64,6 @@ function App() {
 			return updatedCart;
 		});
 	};
-
 
 	const toggleCart = () => setCartOpen(!isCartOpen);
 
@@ -103,6 +102,8 @@ const AppContent = ({
 		<div className="App">
 			{!isAuthPage && <Header toggleCart={toggleCart} cartItems={cartItems} />}
 			{location.pathname === "/" && <Hero />}
+			<BackToTopButton />
+			<ToastifyContainer />
 			<Routes>
 				<Route path="/" element={<Products addToCart={addToCart} />} />
 				<Route path="/men" element={<Men />} />
@@ -121,7 +122,10 @@ const AppContent = ({
 						</RequireAdminAuth>
 					}
 				/>
-				<Route path="/products/:id" element={<ProductDetails />} />
+				<Route
+					path="/products/:id"
+					element={<ProductDetails addToCart={addToCart} />}
+				/>
 			</Routes>
 			<Footer />
 			<CartModal

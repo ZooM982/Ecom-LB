@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { registerUser } from "../services/auth";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Register = () => {
 	const [username, setUsername] = useState("");
@@ -19,15 +20,15 @@ const Register = () => {
 			const response = await registerUser(username, email, password);
 
 			if (response.user) {
-				onLogin(response.token || "", response.user); 
-				alert(response.message || "Inscription réussie !");
-				navigate("/"); 
+				onLogin(response.token || "", response.user);
+				toast.success(response.message || "Inscription réussie !");
+				navigate("/");
 			} else {
-				setError(response.message || "Inscription échouée.");
+				toast.error(response.message || "Inscription échouée.");
 			}
 		} catch (error) {
 			console.error(error);
-			setError("Erreur lors de l'inscription. Veuillez réessayer.");
+			toast.error("Erreur lors de l'inscription. Veuillez réessayer.");
 		}
 	};
 

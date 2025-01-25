@@ -4,6 +4,7 @@ import "./ManageUsers.css"; // Import des styles
 
 const ManageUsers = () => {
 	const [users, setUsers] = useState([]);
+	const [loading, setLoading] = useState(true);
 	const [newUser, setNewUser] = useState({
 		username: "", // Remplacement de 'name' par 'username'
 		email: "",
@@ -24,6 +25,8 @@ const ManageUsers = () => {
 					"Erreur lors de la récupération des utilisateurs :",
 					error
 				);
+			} finally {
+				setLoading(false)
 			}
 		};
 		fetchUsers();
@@ -60,6 +63,8 @@ const ManageUsers = () => {
 			alert("Erreur lors de la suppression.");
 		}
 	};
+
+	if (loading) return <div>Chargement...</div>;
 
 	return (
 		<section className="min-h-[81.3vh] md:min-h-[79.3vh] ">

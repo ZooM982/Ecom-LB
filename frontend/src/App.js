@@ -20,7 +20,7 @@ import Sale from "./Pages/Sale";
 import Kids from "./Pages/Kids";
 import Dashboard from "./components/Dashboard";
 import ProductDetails from "./Pages/ProductDetails";
-import { AuthProvider, useAuth } from "./context/AuthContext";
+import { AuthProvider } from "./context/AuthContext";
 import RequireAdminAuth from "./components/RequireAdminAuth";
 import RegisterAdmin from "./components/RegisterAdmin";
 import BackToTopButton from "./buttons/BackToTop";

@@ -2,15 +2,14 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ProductForm from "./ProductForm ";
 import ProductList from "./ProductList ";
-import Modal from "../components/Modal/Modal"
+import Modal from "../components/Modal/Modal";
 import { toast } from "react-toastify";
-
 
 const ManageProducts = () => {
 	const [products, setProducts] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [editingProduct, setEditingProduct] = useState(null);
-	
+
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const openModal = () => setIsModalOpen(true);
 	const closeModal = () => setIsModalOpen(false);
@@ -29,12 +28,13 @@ const ManageProducts = () => {
 				setLoading(false);
 			}
 		};
-
 		fetchProducts();
-	}, []);
+	}, [loading]); 
+
+	if (loading) return <div>Chargement...</div>;
 
 	// Ajouter ou mettre à jour un produit
-	const handleSubmit = async (productData, imageFile) => {
+	async function handleSubmit(productData, imageFile) {
 		const formData = new FormData();
 		Object.entries(productData).forEach(([key, value]) => {
 			if (key === "sizes" || key === "colors") {
@@ -81,7 +81,7 @@ const ManageProducts = () => {
 			console.error("Erreur lors de l'ajout/mise à jour du produit", error);
 			toast.error("Une erreur s'est produite. Veuillez réessayer.");
 		}
-	};
+	}
 
 	// Préparer un produit pour l'édition
 	const handleEditProduct = (product) => {
@@ -116,7 +116,10 @@ const ManageProducts = () => {
 		<section className="min-h-[81.3vh] md:min-h-[79.3vh] ">
 			<div className="md:p-6 p-2 space-y-8">
 				<div className="grid">
-					<button onClick={openModal} className="p-2 md:w-[20%] text-[20px] bg-blue-400 float-right">
+					<button
+						onClick={openModal}
+						className="p-2 md:w-[20%] text-[20px] bg-blue-400 float-right"
+					>
 						Ajouter un produit
 					</button>
 					<ProductList

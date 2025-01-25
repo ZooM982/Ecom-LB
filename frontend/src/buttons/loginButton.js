@@ -11,12 +11,14 @@ const LoginButton = () => {
 	const handleLogout = () => {
 		const toastId = toast(
 			<div className="grid grid-cols-3 gap-5">
-				<span className="col-span-3">Êtes-vous sûr de vouloir vous déconnecter ?</span>
+				<span className="col-span-3">
+					Êtes-vous sûr de vouloir vous déconnecter ?
+				</span>
 				<button
 					onClick={() => {
 						onLogout();
 						toast.success("Déconnexion réussie !");
-						toast.dismiss(toastId); 
+						toast.dismiss(toastId);
 						navigate("/");
 					}}
 					className="ml-2 w-full text-white rounded-lg h-[30px]  bg-green-500"
@@ -34,9 +36,9 @@ const LoginButton = () => {
 			</div>,
 			{
 				position: "top-right",
-				autoClose: false, 
-				closeOnClick: false, 
-				draggable: false, 
+				autoClose: false,
+				closeOnClick: false,
+				draggable: false,
 				theme: "light",
 			}
 		);
@@ -46,7 +48,7 @@ const LoginButton = () => {
 		toast.warning("Redirection vers la page de connexion.");
 		setTimeout(() => {
 			navigate("/login");
-		}, 3000); 
+		}, 3000);
 	};
 
 	return (
@@ -61,7 +63,7 @@ const LoginButton = () => {
 			) : (
 				<Link
 					to="#"
-					onClick={handleLoginRedirect} 
+					onClick={handleLoginRedirect}
 					className="flex items-center text-white hover:text-gray-300 transition-colors"
 				>
 					<GrLogin />

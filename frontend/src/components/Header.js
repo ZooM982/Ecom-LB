@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom"; // Import useLocation
+import { Link, useLocation } from "react-router-dom";
 import LoginButton from "../buttons/LoginButton";
 import CartIcon from "../components/CartIcon";
 import { useAuth } from "../context/AuthContext";
 import Modal from "./Modal/Modal";
 import { TiThMenu } from "react-icons/ti";
+import Logo from "../Image/Icon.png";
 
 const Header = ({ toggleCart, cartItems }) => {
 	const { isAuthenticated, onLogout } = useAuth();
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	const location = useLocation(); 
+	const location = useLocation();
 
 	const navigationLinks = [
 		{ path: "/", label: "Home" },
@@ -30,10 +31,12 @@ const Header = ({ toggleCart, cartItems }) => {
 			: "hover:underline";
 
 	return (
-		<header className="bg-gray-800 text-white p-4">
+		<header className="bg-[#001806] text-white p-4">
 			<nav className="container mx-auto flex justify-between items-center text-center">
 				<div className="text-lg font-bold">
-					<Link to="/">Logo</Link>
+					<Link to="/">
+						<img src={Logo} alt="Logo" className="w-[60px] rounded-lg " />
+					</Link>
 				</div>
 
 				{/* Navigation pour les grands écrans */}

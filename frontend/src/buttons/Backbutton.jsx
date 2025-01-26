@@ -11,7 +11,7 @@ function BackButton() {
 			style={{
 				transition: "transform 0.6s ease",
 			}}
-			className="bg-[#001806] h-[25px] w-[25px] text-white p-[3px] top-2 md:-top-2 absolute mt-[90px] float-right rounded-full
+			className="bg-[#001806] h-[35px] w-[35px] text-white p-[3px] top-2 md:-top-2 absolute mt-[90px] float-right rounded-full
 			ms-[20px] hover:bg-[#11ef48] transition-colors duration-200"
 		>
 			<span className="text-[18px] font-bold ">

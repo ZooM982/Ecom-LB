@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import BackButton from "../buttons/Backbutton";
 import AddToCartButton from "../buttons/AddToCartButton";
+import SplashScreen from "../components/SplashScreen/SplashScreen";
 
 const ProductDetails = ({ addToCart }) => {
 	const { id } = useParams();
@@ -41,7 +42,7 @@ const ProductDetails = ({ addToCart }) => {
 
 	if (loading)
 		return (
-			<div className="text-center text-2xl font-semibold">Chargement...</div>
+			<SplashScreen/>
 		);
 	if (error) return <div className="text-center text-red-500">{error}</div>;
 	if (!product)

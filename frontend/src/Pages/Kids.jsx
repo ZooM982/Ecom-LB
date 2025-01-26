@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import BackButton from "../buttons/Backbutton";
 import CardProduit from "../components/CardProduit";
+import SplashScreen from "../components/SplashScreen/SplashScreen";
 
-const Sale = () => {
+const Kids = () => {
 	const [products, setProducts] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
@@ -26,7 +27,7 @@ const Sale = () => {
 		fetchProducts();
 	}, []);
 
-	if (loading) return <div>Loading...</div>;
+	if (loading) return <SplashScreen/>;
 	if (error) return <div>{error}</div>;
 
 	return (
@@ -50,4 +51,4 @@ const Sale = () => {
 	);
 };
 
-export default Sale;
+export default Kids;

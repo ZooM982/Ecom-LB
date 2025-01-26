@@ -1,0 +1,64 @@
+/* Styles de base pour la splash screen */
+.splash-screen {
+	opacity: 1;
+	transition: opacity 1s ease-in-out; /* Effet de fondu */
+}
+
+.splash-screen.fade-out {
+	opacity: 0;
+}
+
+/* Conteneur pour les points */
+.spinning-dots {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 150px; 
+	height: 150px;
+	margin: -75px; 
+	animation: rotateDots 1.5s linear infinite; 
+}
+
+/* Points individuels */
+.dot {
+	position: absolute;
+	width: 15px;
+	height: 15px;
+	background-color: white;
+	border-radius: 50%;
+}
+
+/* Position des points sur le cercle */
+.dot:nth-child(1) {
+	top: 0;
+	left: 50%;
+	transform: translate(-50%, -100%);
+}
+
+.dot:nth-child(2) {
+	right: 0;
+	top: 50%;
+	transform: translate(100%, -50%);
+}
+
+.dot:nth-child(3) {
+	bottom: 0;
+	left: 50%;
+	transform: translate(-50%, 100%);
+}
+
+.dot:nth-child(4) {
+	left: 0;
+	top: 50%;
+	transform: translate(-100%, -50%);
+}
+
+/* Animation de rotation */
+@keyframes rotateDots {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}

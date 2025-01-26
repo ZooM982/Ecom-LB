@@ -25,6 +25,8 @@ import RequireAdminAuth from "./components/RequireAdminAuth";
 import RegisterAdmin from "./components/RegisterAdmin";
 import BackToTopButton from "./buttons/BackToTop";
 import ToastifyContainer from "./components/ToastifyContainer";
+import SplashScreen from "./components/SplashScreen/SplashScreen";
+import ErrorPage from "./components/ErrorPage ";
 
 function App() {
 	const [cartItems, setCartItems] = useState(() => {
@@ -72,16 +74,33 @@ function App() {
 		localStorage.removeItem("cartItems");
 	};
 
+	// Contrôle la présence de la splash screen
+	const [showSplash, setShowSplash] = useState(true);
+	const [fadeOut, setFadeOut] = useState(false);
+
+	// Gestion de la durée de la splash screen
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			setFadeOut(true);
+			setTimeout(() => setShowSplash(false), 2000);
+		}, 3000);
+		return () => clearTimeout(timer);
+	}, []);
+
 	return (
 		<AuthProvider>
 			<Router>
-				<AppContent
-					addToCart={addToCart}
-					toggleCart={toggleCart}
-					isCartOpen={isCartOpen}
-					cartItems={cartItems}
-					clearCart={clearCart}
-				/>
+				{showSplash ? (
+					<SplashScreen fadeOut={fadeOut} />
+				) : (
+					<AppContent
+						addToCart={addToCart}
+						toggleCart={toggleCart}
+						isCartOpen={isCartOpen}
+						cartItems={cartItems}
+						clearCart={clearCart}
+					/>
+				)}
 			</Router>
 		</AuthProvider>
 	);
@@ -114,6 +133,7 @@ const AppContent = ({
 				<Route path="/login" element={<Login />} />
 				<Route path="/register" element={<Register />} />
 				<Route path="/create-admin" element={<RegisterAdmin />} />
+				<Route path="*" element={<ErrorPage />} />
 				<Route
 					path="/dashboard/*"
 					element={

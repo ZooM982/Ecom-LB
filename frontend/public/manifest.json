@@ -1,26 +1,26 @@
 {
-  "short_name": "Haurly Shop",
-  "name": "Haurly Shop",
-  "icons": [
-    {
-      "src": "Icon.png",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "Logo.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "Logo.png",
-      "type": "image/png",
-      "sizes": "512x512"
-    }
-  ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff",
-  "scope": "/"
+	"short_name": "Haurly Shop",
+	"name": "Haurly Shop By H3R",
+	"icons": [
+		{
+			"src": "Icon.png",
+			"sizes": "64x64 32x32 24x24 16x16",
+			"type": "image/x-icon"
+		},
+		{
+			"src": "Logo.png",
+			"type": "image/png",
+			"sizes": "192x192"
+		},
+		{
+			"src": "Logo.png",
+			"type": "image/png",
+			"sizes": "512x512"
+		}
+	],
+	"start_url": ".",
+	"display": "standalone",
+	"theme_color": "#000000",
+	"background_color": "#ffffff",
+	"scope": "/"
 }

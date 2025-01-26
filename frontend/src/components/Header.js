@@ -6,6 +6,7 @@ import Modal from "./Modal/Modal";
 import { TiThMenu } from "react-icons/ti";
 import Logo from "../Image/Icon.png";
 import LoginButton from "../buttons/LogButton";
+import InstallPWAButton from "../buttons/InstallPWAButton";
 
 const Header = ({ toggleCart, cartItems }) => {
 	const { isAuthenticated, onLogout } = useAuth();
@@ -77,6 +78,7 @@ const Header = ({ toggleCart, cartItems }) => {
 						<CartIcon cartItems={cartItems} />
 					</button>
 					<LoginButton isAuthenticated={isAuthenticated} onLogout={onLogout} />
+					<InstallPWAButton />
 				</div>
 			</nav>
 

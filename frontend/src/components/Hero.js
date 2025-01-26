@@ -41,7 +41,7 @@ function Hero({ category }) {
 
 	return (
 		<section
-			className="bg-cover bg-center h-[100vh] transition-all duration-1000"
+			className="bg-cover bg-center h-[87vh] md:h-[100vh] transition-all duration-1000"
 			style={{
 				backgroundImage: `url(${
 					backgroundImages[currentIndex] ||
@@ -50,13 +50,17 @@ function Hero({ category }) {
 			}}
 		>
 			<div className="container mx-auto h-full flex items-center justify-center">
-				<h2 className="text-4xl text-white font-bold">
-					{category
-						? `${
-								category.charAt(0).toUpperCase() + category.slice(1)
-						  } Collection`
-						: "Featured Collections"}
-				</h2>
+				<span className="relative inline-block">
+					<span className="before:block before:absolute before:-inset-8 before:-skew-y-3 before:bg-red-500">
+						<span className="relative text-[33px] md:text-8xl text-white font-bold italic font-serif">
+							{category
+								? `${
+										category.charAt(0).toUpperCase() + category.slice(1)
+								  } Collection`
+								: "Featured Collections"}
+						</span>
+					</span>
+				</span>
 			</div>
 		</section>
 	);

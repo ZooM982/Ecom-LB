@@ -23,7 +23,7 @@ const CartModal = ({ isOpen, onRequestClose, cartItems, clearCart }) => {
 			.join("\n");
 
 		const headerMessage = "*Voici mon panier :*\n\n";
-		const phoneNumber = "+221785975058";
+		const phoneNumber = "+221772265369";
 		const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
 			headerMessage + message
 		)}`;

@@ -52,7 +52,7 @@ function Hero({ category }) {
 			<div className="container mx-auto h-full flex items-center justify-center">
 				<span className="relative inline-block">
 					<span className="before:block before:absolute before:-inset-8 before:-skew-y-3 before:bg-red-500">
-						<span className="relative text-[33px] md:text-8xl text-white font-bold italic font-serif">
+						<span className="relative text-[30px] md:text-8xl text-white font-bold italic font-serif">
 							{category
 								? `${
 										category.charAt(0).toUpperCase() + category.slice(1)

@@ -37,7 +37,7 @@ const Dashboard = () => {
 					isSidebarCollapsed ? "w-full md:w-16" : "w-full md:w-64"
 				} bg-gray-200 flex flex-col md:flex-col`}
 			>
-				<div className="flex justify-between items-center p-4 md:justify-start">
+				<div className="flex justify-between items-center mt-8 ms-2 p-4 md:justify-start">
 					<button
 						onClick={toggleSidebar}
 						className="text-gray-600 hover:text-gray-900"

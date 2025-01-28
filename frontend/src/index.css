@@ -2,22 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
-    color: #001806;
+body {
+	color: #001806;
 }
 /* Cacher le srollbar sur grand ecran*/
 .scrollbar-hide {
-  -ms-overflow-style: none; 
-  scrollbar-width: none; 
+	-ms-overflow-style: none;
+	scrollbar-width: none;
 }
 
 .scrollbar-hide::-webkit-scrollbar {
-  display: none; 
+	display: none;
 }
 
 /* SplashScreen animation */
 @keyframes bounce {
-	0%, 100% {
+	0%,
+	100% {
 		transform: translateY(0);
 	}
 	50% {

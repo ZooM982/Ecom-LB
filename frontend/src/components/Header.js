@@ -4,7 +4,7 @@ import CartIcon from "../components/CartIcon";
 import { useAuth } from "../context/AuthContext";
 import Modal from "./Modal/Modal";
 import { TiThMenu } from "react-icons/ti";
-import Logo from "../Image/Icon.png";
+import Logo from "../Image/Icon.jpg";
 import LoginButton from "../buttons/LogButton";
 import InstallPWAButton from "../buttons/InstallPWAButton";
 
@@ -19,7 +19,7 @@ const Header = ({ toggleCart, cartItems }) => {
 		{ path: "/women", label: "Women" },
 		{ path: "/kids", label: "Kids" },
 		{ path: "/accessories", label: "Accessories" },
-		{ path: "/sale", label: "Sale" },
+		{ path: "/sale", label: "Solde" },
 	];
 
 	const openModal = () => setIsModalOpen(true);

@@ -35,7 +35,7 @@ const Register = () => {
 
 	return (
 		<section>
-			<BackButton/>
+			<BackButton />
 			<div className="flex items-center justify-center h-screen bg-gray-100 px-3">
 				<div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
 					<h2 className="text-2xl font-bold text-center mb-6">

@@ -3,17 +3,17 @@
 	"name": "Haurly Shop By H3R",
 	"icons": [
 		{
-			"src": "Icon.png",
+			"src": "Icon.jpg",
 			"sizes": "64x64 32x32 24x24 16x16",
 			"type": "image/x-icon"
 		},
 		{
-			"src": "Logo.png",
+			"src": "Icon.jpg",
 			"type": "image/png",
 			"sizes": "192x192"
 		},
 		{
-			"src": "Logo.png",
+			"src": "Icon.jpg",
 			"type": "image/png",
 			"sizes": "512x512"
 		}

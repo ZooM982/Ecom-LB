@@ -2,7 +2,6 @@ import React, { useEffect, useState, useMemo, useRef } from "react";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import AddToCartButton from "../buttons/AddToCartButton";
-import SplashScreen from "./SplashScreen/SplashScreen";
 import NavigationButton from "../buttons/NavigationButton";
 import { FaChevronRight } from "react-icons/fa";
 
@@ -55,7 +54,7 @@ function Products({ addToCart }) {
 		fetchProducts();
 	}, [category]);
 
-	if (loading) return <div>Chargements des produits<div/>;
+	if (loading) return <div>Chargements des produits</div>;
 	if (error) return <div>{error}</div>;
 
 	const handleScroll = (direction, cat) => {

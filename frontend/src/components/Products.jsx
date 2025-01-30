@@ -110,7 +110,7 @@ function Products({ addToCart }) {
 											className="bg-white rounded-lg shadow-md p-4 w-[60%] md:w-[20%] flex-shrink-0"
 										>
 											<Link to={`/products/${product._id}`}>
-												<p className="bg-[#001806] text-white w-[35%] text-center rounded-full mb-2 animate-bounce ">
+												<p className="bg-[#001806] text-white w-[50%] md:w-[35%] text-center rounded-full mb-2 animate-bounce ">
 													Nouveau
 												</p>
 												<img

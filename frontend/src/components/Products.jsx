@@ -55,7 +55,7 @@ function Products({ addToCart }) {
 		fetchProducts();
 	}, [category]);
 
-	if (loading) return <SplashScreen />;
+	if (loading) return <div>Chargements des produits<div/>;
 	if (error) return <div>{error}</div>;
 
 	const handleScroll = (direction, cat) => {

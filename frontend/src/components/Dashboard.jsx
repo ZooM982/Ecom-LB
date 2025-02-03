@@ -10,6 +10,7 @@ import {
 	FaChevronRight,
 } from "react-icons/fa";
 import BackButton from "../buttons/Backbutton";
+import Stats from "../Dashboard/Stats";
 
 const Dashboard = () => {
 	const { auth } = useAuth();
@@ -82,6 +83,25 @@ const Dashboard = () => {
 							)}
 						</Link>
 					</li>
+					<li
+						className={`flex items-center gap-2 ${
+							isSidebarCollapsed ? "justify-center" : "justify-start"
+						} ${getLinkClass("/dashboard/stats")}`}
+					>
+						<Link
+							className={`flex items-center gap-2 ${
+								isSidebarCollapsed ? "text-lg" : "text-[20px] "
+							} transition-all duration-300 p-2`}
+							to="/dashboard/stats"
+						>
+							<FaUser className="text-2xl" />
+							{!isSidebarCollapsed && (
+								<span className="whitespace-nowrap">
+									Voir les stats
+								</span>
+							)}
+						</Link>
+					</li>
 				</ul>
 			</aside>
 
@@ -92,6 +112,7 @@ const Dashboard = () => {
 						<>
 							<Route path="products" element={<ManageProducts />} />
 							<Route path="users" element={<ManageUsers />} />
+							<Route path="stats" element={<Stats />} />
 						</>
 					) : (
 						<Navigate to="/login" />

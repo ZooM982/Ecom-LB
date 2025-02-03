@@ -6,6 +6,7 @@ const path = require("path");
 const productRoutes = require("./routes/productRoutes");
 const usersRoutes = require("./routes/userRoutes");
 const cloudinary = require("cloudinary").v2;
+const statsRoutes = require('./routes/stats');
 
 dotenv.config();
 
@@ -42,8 +43,6 @@ app.use(express.json());
 // MongoDB connection
 mongoose
 	.connect(process.env.MONGODB_URI, {
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
 	})
 	.then(() => console.log("MongoDB connecté"))
 	.catch((err) => console.error("Erreur de connexion à MongoDB :", err));
@@ -54,7 +53,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // Routes
 app.use("/api/products", productRoutes);
 app.use("/api/users", usersRoutes);
-
+app.use('/api', statsRoutes);
 // Server listen
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Serveur en écoute sur le port ${PORT}`));

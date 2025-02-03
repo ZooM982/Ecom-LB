@@ -42,12 +42,12 @@ const Dashboard = () => {
 				<div className="flex justify-between items-center mt-8 ms-2 p-4 md:justify-start">
 					<button
 						onClick={toggleSidebar}
-						className="text-gray-600 hover:text-gray-900"
+						className="hidden md:block text-gray-600 hover:text-gray-900"
 					>
 						{isSidebarCollapsed ? <FaChevronRight /> : <FaChevronLeft />}
 					</button>
 				</div>
-				<ul className="flex flex-col md:flex-col gap-4 p-2">
+				<ul className="flex md:flex-col gap-4 p-2">
 					<li
 						className={`flex items-center gap-2 ${
 							isSidebarCollapsed ? "justify-center" : "justify-start"

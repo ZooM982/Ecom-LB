@@ -11,6 +11,7 @@ import {
 } from "react-icons/fa";
 import BackButton from "../buttons/Backbutton";
 import Stats from "../Dashboard/Stats";
+import { IoStatsChartOutline } from "react-icons/io5";
 
 const Dashboard = () => {
 	const { auth } = useAuth();
@@ -94,7 +95,7 @@ const Dashboard = () => {
 							} transition-all duration-300 p-2`}
 							to="/dashboard/stats"
 						>
-							<FaUser className="text-2xl" />
+							<IoStatsChartOutline className="text-2xl" />
 							{!isSidebarCollapsed && (
 								<span className="whitespace-nowrap">
 									Voir les stats

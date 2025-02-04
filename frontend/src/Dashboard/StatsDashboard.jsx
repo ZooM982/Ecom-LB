@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-// ✅ Créer une instance Axios pour éviter la répétition de l'URL
+// ✅ Création d'une instance Axios
 const api = axios.create({
   baseURL: "https://haurly-shop.onrender.com/api", 
   headers: { "Content-Type": "application/json" },
@@ -15,26 +15,26 @@ const StatsDashboard = () => {
   });
 
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null); // ✅ Ajouter un état pour gérer les erreurs
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        // ✅ Correction des requêtes avec l'instance Axios
+        // ✅ Correction des endpoints
         const [revenueRes, salesRes, cartAbandonmentRes] = await Promise.all([
-          api.get("/revenue"),
-          api.get("/salesByPeriod?period=month"),
-          api.get("/cartAbandonment"),
+          api.get("/stats/revenue"),
+          api.get("/stats/products-purchases"), // Produits les plus achetés
+          api.get("/stats/cartAbandonment"),
         ]);
 
         setStats({
           revenue: revenueRes.data,
           sales: salesRes.data,
-          cartAbandonment: cartAbandonmentRes.data.abandonmentRate,
+          cartAbandonment: cartAbandonmentRes.data.abandonmentRate || 0,
         });
       } catch (error) {
-        console.error("❌ Erreur lors du chargement des statistiques", error);
-        setError("Erreur lors du chargement des statistiques.");
+        console.error("❌ Erreur lors du chargement des statistiques", error.response?.data || error.message);
+        setError("Impossible de charger les statistiques. Veuillez réessayer plus tard.");
       } finally {
         setLoading(false);
       }
@@ -43,51 +43,57 @@ const StatsDashboard = () => {
     fetchStats();
   }, []);
 
-  // ✅ Gérer les états UI : chargement et erreurs
-  if (loading) return <p>⏳ Chargement des statistiques...</p>;
-  if (error) return <p className="text-red-500">{error}</p>;
+  // ✅ Formateur pour les prix (€)
+  const formatPrice = (value) => 
+    new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" }).format(value);
+
+  // ✅ États UI : Chargement & Erreur globale
+  if (loading) return <p className="text-center text-gray-600">⏳ Chargement des statistiques...</p>;
+  if (error) return <p className="text-center text-red-500">{error}</p>;
 
   return (
     <div className="p-4 bg-gray-100 min-h-screen">
-      <h1 className="text-2xl font-bold mb-4">📊 Statistiques E-commerce</h1>
+      <h1 className="text-2xl font-bold mb-4 text-center">📊 Statistiques E-commerce</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {/* ✅ Affichage du chiffre d'affaires */}
+        {/* ✅ Chiffre d'affaires */}
         <div className="bg-white p-4 shadow-md rounded-lg">
           <h2 className="text-lg font-semibold">💰 Chiffre d’affaires</h2>
           <ul>
             {stats.revenue.length > 0 ? (
               stats.revenue.map((item) => (
                 <li key={item._id}>
-                  {item.productName}: {item.totalRevenue.toFixed(2)} €
+                  {item.productName || `Produit ${item._id}`}: {formatPrice(item.totalRevenue)}
                 </li>
               ))
             ) : (
-              <p>Aucune donnée disponible.</p>
+              <p className="text-gray-500">Aucune donnée disponible.</p>
             )}
           </ul>
         </div>
 
-        {/* ✅ Affichage des ventes par mois */}
+        {/* ✅ Ventes par produit */}
         <div className="bg-white p-4 shadow-md rounded-lg">
-          <h2 className="text-lg font-semibold">📆 Ventes par mois</h2>
+          <h2 className="text-lg font-semibold">📆 Produits les plus achetés</h2>
           <ul>
             {stats.sales.length > 0 ? (
               stats.sales.map((sale, index) => (
                 <li key={index}>
-                  Mois {sale._id}: {sale.totalSales} ventes
+                  {sale._id}: {sale.purchases} ventes
                 </li>
               ))
             ) : (
-              <p>Aucune donnée disponible.</p>
+              <p className="text-gray-500">Aucune donnée disponible.</p>
             )}
           </ul>
         </div>
 
-        {/* ✅ Affichage du taux d’abandon de panier */}
+        {/* ✅ Taux d’abandon du panier */}
         <div className="bg-white p-4 shadow-md rounded-lg">
           <h2 className="text-lg font-semibold">📦 Taux d’abandon de panier</h2>
-          <p>{stats.cartAbandonment ? stats.cartAbandonment.toFixed(2) : "0.00"}%</p>
+          <p className="text-xl font-bold text-red-600">
+            {stats.cartAbandonment.toFixed(2)}%
+          </p>
         </div>
       </div>
     </div>

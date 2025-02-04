@@ -11,7 +11,7 @@ export const trackProductView = async (productId, userId = null) => {
   try {
     await api.post(`/track-view/${productId}`, { userId });
   } catch (error) {
-    console.error("❌ Erreur lors de l'enregistrement de la visite du produit :", error);
+    console.error("❌ Erreur lors de l'enregistrement de la visite du produit :", error.response?.data || error.message);
   }
 };
 
@@ -20,7 +20,7 @@ export const trackPurchase = async (products, userId) => {
   try {
     await api.post('/track-purchase', { products, userId });
   } catch (error) {
-    console.error("❌ Erreur lors de l'enregistrement de l'achat :", error);
+    console.error("❌ Erreur lors de l'enregistrement de l'achat :", error.response?.data || error.message);
   }
 };
 
@@ -29,7 +29,7 @@ export const trackSiteVisit = async (page, userId = null) => {
   try {
     await api.post('/track-visit', { page, userId });
   } catch (error) {
-    console.error("❌ Erreur lors de l'enregistrement de la visite du site :", error);
+    console.error("❌ Erreur lors de l'enregistrement de la visite du site :", error.response?.data || error.message);
   }
 };
 
@@ -39,8 +39,8 @@ export const fetchProductViews = async () => {
     const response = await api.get('/stats/products-views');
     return response.data;
   } catch (error) {
-    console.error("❌ Erreur lors de la récupération des statistiques de vues :", error);
-    return [];
+    console.error("❌ Erreur lors de la récupération des statistiques de vues :", error.response?.data || error.message);
+    return null;
   }
 };
 
@@ -50,7 +50,29 @@ export const fetchProductPurchases = async () => {
     const response = await api.get('/stats/products-purchases');
     return response.data;
   } catch (error) {
-    console.error("❌ Erreur lors de la récupération des statistiques d'achats :", error);
-    return [];
+    console.error("❌ Erreur lors de la récupération des statistiques d'achats :", error.response?.data || error.message);
+    return null;
+  }
+};
+
+// ✅ Récupérer le chiffre d'affaires par produit
+export const fetchRevenueStats = async () => {
+  try {
+    const response = await api.get('/stats/revenue');
+    return response.data;
+  } catch (error) {
+    console.error("❌ Erreur lors de la récupération du chiffre d'affaires :", error.response?.data || error.message);
+    return null;
+  }
+};
+
+// ✅ Récupérer le taux d’abandon du panier
+export const fetchCartAbandonmentRate = async () => {
+  try {
+    const response = await api.get('/stats/cart-abandonment');
+    return response.data;
+  } catch (error) {
+    console.error("❌ Erreur lors de la récupération du taux d'abandon du panier :", error.response?.data || error.message);
+    return null;
   }
 };

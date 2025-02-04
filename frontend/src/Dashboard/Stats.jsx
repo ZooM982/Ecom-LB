@@ -29,7 +29,7 @@ const Stats = () => {
         setProductPurchases(purchases || []);
       } catch (err) {
         console.error("Erreur lors du chargement des statistiques", err);
-        setError("Erreur lors du chargement des données.");
+        setError("❌ Impossible de charger les données.");
       } finally {
         setLoading(false);
       }
@@ -38,8 +38,26 @@ const Stats = () => {
     fetchData();
   }, []);
 
+  // ✅ Fonction pour formater les labels des produits
+  const formatLabel = (id) => (id ? `Produit ${id}` : "Produit inconnu");
+
+  // ✅ Options pour améliorer la lisibilité des graphiques
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: { display: false }, // Pas besoin d'afficher la légende ici
+      tooltip: { enabled: true },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: { stepSize: 1 },
+      },
+    },
+  };
+
   const viewData = {
-    labels: productViews.length > 0 ? productViews.map((p) => `Produit ${p._id}`) : [],
+    labels: productViews.length > 0 ? productViews.map((p) => formatLabel(p._id)) : [],
     datasets: [
       {
         label: "Vues",
@@ -50,7 +68,7 @@ const Stats = () => {
   };
 
   const purchaseData = {
-    labels: productPurchases.length > 0 ? productPurchases.map((p) => `Produit ${p._id}`) : [],
+    labels: productPurchases.length > 0 ? productPurchases.map((p) => formatLabel(p._id)) : [],
     datasets: [
       {
         label: "Achats",
@@ -65,26 +83,26 @@ const Stats = () => {
       <h2 className="text-2xl font-bold mb-4">📊 Statistiques</h2>
 
       {loading ? (
-        <p>⏳ Chargement des statistiques...</p>
+        <p className="text-gray-600 text-center">⏳ Chargement des statistiques...</p>
       ) : error ? (
-        <p className="text-red-500">{error}</p>
+        <p className="text-red-500 text-center">{error}</p>
       ) : (
         <>
           <StatsDashboard />
           <div className="w-full">
-            <h3 className="text-lg font-semibold mb-2">Produits les plus visités</h3>
+            <h3 className="text-lg font-semibold mb-2">📌 Produits les plus visités</h3>
             {productViews.length > 0 ? (
-              <Bar data={viewData} />
+              <Bar data={viewData} options={chartOptions} />
             ) : (
-              <p>Aucune donnée disponible.</p>
+              <p className="text-gray-500">Aucune donnée disponible.</p>
             )}
           </div>
           <div className="w-full mt-6">
-            <h3 className="text-lg font-semibold mb-2">Produits les plus achetés</h3>
+            <h3 className="text-lg font-semibold mb-2">🛒 Produits les plus achetés</h3>
             {productPurchases.length > 0 ? (
-              <Bar data={purchaseData} />
+              <Bar data={purchaseData} options={chartOptions} />
             ) : (
-              <p>Aucune donnée disponible.</p>
+              <p className="text-gray-500">Aucune donnée disponible.</p>
             )}
           </div>
         </>

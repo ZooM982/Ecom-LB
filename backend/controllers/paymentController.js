@@ -62,7 +62,7 @@ const sendWhatsAppMessage = async (payment) => {
   try {
     await client.messages.create({
       from: 'whatsapp:+14155238886', // Numéro Twilio
-      to: `whatsapp:+VOTRE_NUMERO`,  // Ton numéro WhatsApp
+      to: `whatsapp:+221785975058`,  // Ton numéro WhatsApp
       body: message,
     });
     console.log('Message WhatsApp envoyé !');

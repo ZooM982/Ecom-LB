@@ -12,6 +12,7 @@ import {
 import BackButton from "../buttons/Backbutton";
 import Stats from "../Dashboard/Stats";
 import { IoStatsChartOutline } from "react-icons/io5";
+import PaymentHistory from "../Dashboard/PaymentHistory";
 
 const Dashboard = () => {
 	const { auth } = useAuth();
@@ -103,6 +104,25 @@ const Dashboard = () => {
 							)}
 						</Link>
 					</li>
+					<li
+						className={`flex items-center gap-2 ${
+							isSidebarCollapsed ? "justify-center" : "justify-start"
+						} ${getLinkClass("/dashboard/paiements")}`}
+					>
+						<Link
+							className={`flex items-center gap-2 ${
+								isSidebarCollapsed ? "text-lg" : "text-[20px] "
+							} transition-all duration-300 p-2`}
+							to="/dashboard/paiements"
+						>
+							<IoStatsChartOutline className="text-2xl" />
+							{!isSidebarCollapsed && (
+								<span className="whitespace-nowrap">
+									Voir les paiements
+								</span>
+							)}
+						</Link>
+					</li>
 				</ul>
 			</aside>
 
@@ -114,6 +134,7 @@ const Dashboard = () => {
 							<Route path="products" element={<ManageProducts />} />
 							<Route path="users" element={<ManageUsers />} />
 							<Route path="stats" element={<Stats />} />
+							<Route path="paiements" element={<PaymentHistory />} />
 						</>
 					) : (
 						<Navigate to="/login" />

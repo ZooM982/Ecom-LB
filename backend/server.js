@@ -7,6 +7,7 @@ const productRoutes = require("./routes/productRoutes");
 const usersRoutes = require("./routes/userRoutes");
 const cloudinary = require("cloudinary").v2;
 const statsRoutes = require('./routes/stats');
+const paymentRoutes = require('./routes/paymentRoutes');
 
 dotenv.config();
 
@@ -54,6 +55,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/products", productRoutes);
 app.use("/api/users", usersRoutes);
 app.use('/api', statsRoutes);
+app.use('/api/payment', paymentRoutes);
 // Server listen
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Serveur en écoute sur le port ${PORT}`));
